@@ -1,4 +1,7 @@
+import itertools
 from django import forms
+from django.utils.text import slugify
+
 from . models import Userdetails, Delivery, Merchant
 
 class Add_detailsForm(forms.ModelForm):
@@ -47,3 +50,20 @@ class Add_merchantForm(forms.ModelForm):
 		'telephone',
 		'location',
 		]
+
+	def save(self):
+		instance = super(Add_merchantForm, self).save(commit=False)
+
+		max_length = Merchant._meta.get_field('slug').max_length
+		instance.slug = orig = slugify(instance.company)[:max_length]
+
+		for x in itertools.count(1):
+			if not Merchant.objects.filter(slug=instance.slug).exists():
+				break
+
+			# Truncate the original slug dynamically. Minus 1 for the hyphen.
+			instance.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+
+		instance.save()
+
+		return instance

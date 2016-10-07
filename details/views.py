@@ -58,8 +58,9 @@ def merchant(request):
 	if request.method == "POST":
 		form = Add_merchantForm(request.POST or None)
 		if form.is_valid():
-			instance = form.save(commit=False)
-			instance.save()
+			instance = form.save()
+			# instance = form.save(commit=False)
+			# instance.save()
 			return redirect('home')
 	else:
 		form = Add_merchantForm()
