@@ -22,7 +22,7 @@ def second_page(request, slug=None):
 	user_info = get_object_or_404(Userdetails, slug=slug)
 	form = Add_coordinatesForm(request.POST or None)
 	form.fields['first_name'].initial = get_object_or_404(Userdetails, slug=slug).first_name
-	form.fields['last_name'].initial = get_object_or_404(Userdetails, slug=slug).lname
+	form.fields['last_name'].initial = get_object_or_404(Userdetails, slug=slug).last_name
 	form.fields['email'].initial = get_object_or_404(Userdetails, slug=slug).email
 
 	ctx = {}

@@ -2,16 +2,16 @@ from django import forms
 from . models import Userdetails, Delivery, Merchant
 
 class Add_detailsForm(forms.ModelForm):
-	fname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-	lname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	telephone = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	country = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	class Meta:
 		model = Userdetails
 		fields = [
-			'fname',
-			'lname',
+			'first_name',
+			'last_name',
 			'email',
 			'telephone',
 			'country',
