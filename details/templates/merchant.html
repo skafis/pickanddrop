@@ -1,0 +1,64 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+{% load staticfiles %}
+{% block extended_head %}
+<style>
+      #map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+      }
+    </style>
+{% endblock %}
+{% block content %}
+<h2>Enter Details</h2>
+<a href="{% url 'home' %}">User Registration </a>
+<div class="row">
+	<div class="col-md-6">
+		<form method="POST">{% csrf_token %}
+	{{ form.as_p }}		
+	<button type="submit" class="button">save</button>
+	</form>	
+	</div>
+	<div class="col-md-6">
+		<div id="map"></div>
+	</div>
+	
+</div>
+{% endblock content %}
+
+{% block extended_script %}
+<script>
+function initMap() {
+
+                var mapOptions = {
+                    zoom: 15,
+                    disableDefaultUI: false,
+                    center: new google.maps.LatLng(-1.2921,36.8219), 
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+                coordinates = new google.maps.LatLng(-1.288581834136465,36.82305871429446)
+                $("#id_location").val(coordinates.lat() + ','+coordinates.lng());
+                var marker_1 =  new google.maps.Marker({ 
+	                     	position:coordinates, 
+	                     	draggable: true,
+	                     	map: map
+	                     });
+
+                google.maps.event.addListener(marker_1, 'dragend', function() {
+					location_1 = marker_1.getPosition();
+					$("#id_location").val(location_1.lat()+ ','+ location_1.lng());
+
+				// 	// drawRoutes(location1, location2);
+				});
+            }
+	
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-9D7KFH2MMHaqE2fOyvdTIzkbAtSIauk&callback=initMap"
+  async defer>
+</script>
+
+{% endblock %}

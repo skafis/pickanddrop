@@ -1,0 +1,125 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,700';
+
+body { font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif; background: #F5FBFE; font-size: 14px; color: #333; overflow-x: hidden; line-height: 1.9;}
+html, body { height: 100%;}
+p{margin: 5px 0; line-height;}
+
+h1,h2,h3,h4,h5,h6{text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2682cf;}
+h1{font-size: 36px}
+h2{font-size: 180%}
+h3, .tabs-container strong{font-size: 140%}
+h4{font-size: 120%}
+h5,h6{font-size: 120%}
+
+a{color: #2682cf}
+.bold{font-weight: 700;}
+.gray{background: #e7e7e7;}
+
+#header{margin-bottom: 10px;}
+#header, .navbar-default{ background: #F7FCFF /*url(../img/bg.jpg) no-repeat center fixed*/;  background-size: cover; margin: 0; border: 0; border-bottom: 1px solid #d5efff;}
+body.inner #header, body.inner .navbar-default{ margin: 0}
+.topper{padding: 20px 0; }
+
+#navigation{background: none; }
+#navigation .nav > li > a{text-transform: uppercase; color: #011826; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 70px; padding: 0 10px;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, 
+.navbar-default .navbar-nav > .active > a:hover{background: none !important; color: #145C99 !important;}
+
+#navbar .nav{padding:0px;}
+.navbar-brand{font-family: 'Montserrat', sans-serif;height: 70px; line-height: 70px; font-size: 250%; text-transform: uppercase;  font-weight: 700; padding: 0 5px; color: #145C99 !important;}
+.navbar-header{}
+.navbar-right{margin-right:0}
+.top-navigation .navbar-brand{background: none; height: auto;}
+
+.dropdown-menu { width: 100%; background: #E7E7E7 !important}
+.dropdown-menu > li { display: inline-block;}
+li.dropdown {position: static; float:right}
+.dropdown-menu > li > a{font-weight: 700; color: #00516F; font-size: 13px;}
+
+#topmost{ color: #fff; padding: 2px 15px; margin-top: 20px; font-weight: 700}
+#topmost a{color: #fff;}
+
+#login{background: url(../img/bg.jpg) no-repeat bottom fixed;  background-size: cover;}
+.loginscreen{margin: 20% auto 0; background: #fff; padding: 20px}
+.link{margin: 5px 0;}
+.link a{color: #fa0d5d; font-weight: 700; }
+#login .btn{background-image: linear-gradient( #2682cf , #145c99); border: none;  text-transform: uppercase; color: #fff; font-family: 'Roboto'; font-weight: 700;}
+
+#admin{padding: 20px 0;}
+#admin .fa{font-size: 25px; color: #2682cf}
+#admin th, #admin td{text-align: center;}
+#admin td{color: #000;}
+
+#details{background: #e7e7e7; border: 1px solid #eee; margin-bottom: 20px;}
+#details img{height: 300px;}
+
+#main-content{padding: 10px 0 20px;}
+.intro{padding: 15px 0; text-align: center;}
+
+
+.total_c{  padding: 5px 0; margin: 0 auto 30px;}
+.total{color: #00516F; font-weight: 700; font-size: 40px; font-family: 'Montserrat', sans-serif;}
+
+.bio_inner{padding: 5px 10px;}
+.dets{border-bottom: 1px solid #e7e7e7; padding: 5px 0;}
+
+#donate{padding: 10px;}
+#donate h3{font-size: 30px; }
+#donate .progress{margin: 20px 0;}
+
+/* btn */
+.btn{background: none; font-family: 'Montserrat', sans-serif; font-weight: 700; color: #145C99; border: 1px solid #4797EB; min-height: 29px; line-height: 29px;}
+.btn-donate{min-height: 50px; line-height: 50px; font-size: 24px; text-transform: uppercase;}
+
+.form-control{border: 1px solid #286090; background: #fff; color: #286090; min-height: 40px;}
+
+
+/**/
+.footer{background: #145c99; padding: 5px; color: #fff; font-weight: 700}
+
+/* DATATABLES */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  background: transparent;
+}
+.dataTables_wrapper {
+  padding-bottom: 30px;
+}
+.dataTables_length {
+  float: left; display: none;
+}
+.dataTables_filter label {
+  margin-right: 5px;
+}
+.html5buttons {
+  float: right;
+}
+.html5buttons a {
+  border: 1px solid #ededed;
+  background: #e7e7e7; font-weight: 700;
+  color: #000;
+  box-shadow: none;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.html5buttons a:hover,
+.html5buttons a:focus:active {
+  background-color: #eee;
+  color: inherit;
+  border-color: #d2d2d2;
+}
+div.dt-button-info {
+  z-index: 100;
+}
+@media (max-width: 768px) {
+  .html5buttons {
+    float: none;
+    margin-top: 10px;
+  }
+  .dataTables_length {
+    float: none;
+  }
+}
