@@ -20,6 +20,7 @@ def first_page(request):
 
 def second_page(request, slug=None):
 	user_info = get_object_or_404(Userdetails, slug=slug)
+	points = Merchant.objects.all()
 	form = Add_coordinatesForm(request.POST or None)
 	form.fields['first_name'].initial = get_object_or_404(Userdetails, slug=slug).first_name
 	form.fields['last_name'].initial = get_object_or_404(Userdetails, slug=slug).last_name
@@ -47,11 +48,15 @@ def third_page(request, slug=None):
 
 def fourth_page(request):
 
+	# points = Merchant.objects.all()
+	points = Merchant.objects.all()
+
 	def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 		return ''.join(random.choice(chars) for _ in range(size))
 	token = id_generator(7)
 	ctx = {}
 	ctx['token']=token
+	ctx['points'] = points
 	return render(request, 'page_4.html', ctx)
 
 def merchant(request):
@@ -61,7 +66,16 @@ def merchant(request):
 			instance = form.save()
 			# instance = form.save(commit=False)
 			# instance.save()
-			return redirect('home')
+			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
 		form = Add_merchantForm()
 	return render(request, 'merchant.html', {'form':form})
+
+def merchant_details(request, slug=None):
+	info  = get_object_or_404(Merchant, slug=slug)
+	ctx = {}
+	ctx['info'] = info
+	
+	return render (request, 'merchantinfo.html', ctx)
+
+

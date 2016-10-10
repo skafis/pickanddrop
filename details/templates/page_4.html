@@ -3,6 +3,20 @@
 {% block content %}
 <h3>Token</h3>
 <div>
-{{token}}
+{{token}}<br>
+<div id="location">
+{% for loc in points %}
+	<div id="points">{{loc.location}}</div>
+{% endfor %}
 </div>
 {% endblock content %}
+</div>
+
+ {% block extended_script %}
+ <script>
+ var loc = document.getElementById("location").text
+ console.log(loc);
+ 	
+ </script>
+
+    {% endblock %}

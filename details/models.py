@@ -63,6 +63,10 @@ class Merchant(models.Model):
 	def __str__(self):
 		return self.company
 
+	def get_absolute_url(self):
+		return reverse('info', kwargs={'slug': self.slug})
+
+
 
 
 

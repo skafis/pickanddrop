@@ -21,6 +21,7 @@
 	</form>	
 	</div>
 	<div class="col-md-6">
+		<h2> pin point your location</h2>
 		<div id="map"></div>
 	</div>
 	
@@ -30,31 +31,40 @@
 {% block extended_script %}
 <script>
 function initMap() {
+	var map;
+    var marker = null;
 
-                var mapOptions = {
-                    zoom: 15,
-                    disableDefaultUI: false,
-                    center: new google.maps.LatLng(-1.2921,36.8219), 
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
+        var mapOptions = {
+            zoom: 15,
+            disableDefaultUI: false,
+            center: new google.maps.LatLng(-1.2921,36.8219), 
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-                coordinates = new google.maps.LatLng(-1.288581834136465,36.82305871429446)
-                $("#id_location").val(coordinates.lat() + ','+coordinates.lng());
-                var marker_1 =  new google.maps.Marker({ 
-	                     	position:coordinates, 
-	                     	draggable: true,
-	                     	map: map
-	                     });
+        google.maps.event.addListener(map, 'click', function(event) {
+        //call function to create marker
+        	var lonlat=String( event.latLng.lat() + ", " + event.latLng.lng())
 
-                google.maps.event.addListener(marker_1, 'dragend', function() {
-					location_1 = marker_1.getPosition();
-					$("#id_location").val(location_1.lat()+ ','+ location_1.lng());
+            $("#id_location").val(lonlat);
 
-				// 	// drawRoutes(location1, location2);
-				});
-            }
+            if (marker) { marker.setMap(null); }
+                //create the new location
+                 marker = new google.maps.Marker({ 
+                 	position: event.latLng, 
+                 	draggable: true,
+                 	map: map
+                 });
+         });
+
+        google.maps.event.addListener(marker_1, 'dragend', function() {
+			location_1 = marker_1.getPosition();
+			$("#id_location").val(location_1.lat()+ ','+ location_1.lng());
+
+		// 	// drawRoutes(location1, location2);
+		});
+    }
 	
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-9D7KFH2MMHaqE2fOyvdTIzkbAtSIauk&callback=initMap"

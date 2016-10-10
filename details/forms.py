@@ -39,6 +39,7 @@ class Add_merchantForm(forms.ModelForm):
 	company = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	telephone = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	class Meta:
@@ -47,6 +48,7 @@ class Add_merchantForm(forms.ModelForm):
 		'company',
 		'first_name',
 		'last_name',
+		'email',
 		'telephone',
 		'location',
 		]
