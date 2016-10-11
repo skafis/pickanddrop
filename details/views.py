@@ -7,7 +7,7 @@ from . forms import Add_detailsForm,Add_coordinatesForm, Add_merchantForm
 
 
 # Create your views here.
-def first_page(request):
+def user_details(request):
 	if request.method == "POST":
 		form = Add_detailsForm(request.POST or None)
 		if form.is_valid():
@@ -16,9 +16,9 @@ def first_page(request):
 			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
 		form = Add_detailsForm()
-	return render(request, 'page_1.html', {'form':form})
+	return render(request, 'user_page.html', {'form':form})
 
-def second_page(request, slug=None):
+def user_location(request, slug=None):
 	user_info = get_object_or_404(Userdetails, slug=slug)
 	points = Merchant.objects.all()
 	form = Add_coordinatesForm(request.POST or None)
@@ -38,15 +38,9 @@ def second_page(request, slug=None):
 		return redirect('http://192.168.0.13/pickanddrop/pesapal-iframe.php?first_name=%s&last_name=%s&amount=%s&email=%s&description=%s&type=%s&reference=%s'%(request.POST['first_name'], 
 			request.POST['last_name'], request.POST['amount'], request.POST['email'],description,types,reference))
 
-	return render(request, 'page_2.html',ctx)
+	return render(request, 'user_location.html',ctx)
 
-def third_page(request, slug=None):
-	info = get_object_or_404(Delivery, slug=slug)
-	ctx = {}
-	ctx['info']=info
-	return render(request, 'page_3.html', ctx)
-
-def fourth_page(request):
+def token_generator(request):
 
 	# points = Merchant.objects.all()
 	points = Merchant.objects.all()
@@ -57,9 +51,9 @@ def fourth_page(request):
 	ctx = {}
 	ctx['token']=token
 	ctx['points'] = points
-	return render(request, 'page_4.html', ctx)
+	return render(request, 'token_generator.html', ctx)
 
-def merchant(request):
+def merchant_info(request):
 	if request.method == "POST":
 		form = Add_merchantForm(request.POST or None)
 		if form.is_valid():
@@ -69,13 +63,13 @@ def merchant(request):
 			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
 		form = Add_merchantForm()
-	return render(request, 'merchant.html', {'form':form})
+	return render(request, 'merchant_info.html', {'form':form})
 
 def merchant_details(request, slug=None):
 	info  = get_object_or_404(Merchant, slug=slug)
 	ctx = {}
 	ctx['info'] = info
 	
-	return render (request, 'merchantinfo.html', ctx)
+	return render (request, 'merchant_details.html', ctx)
 
 
