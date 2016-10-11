@@ -66,6 +66,11 @@ class Merchant(models.Model):
 	def get_absolute_url(self):
 		return reverse('info', kwargs={'slug': self.slug})
 
+class Item(models.Model):
+	name = models.ForeignKey(Merchant, verbose_name = 'Name', blank = True)
+	item_name = models.CharField(max_length=40)
+	
+
 
 
 

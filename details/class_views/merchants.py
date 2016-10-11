@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from details.forms import Add_merchantForm
 from details.models import Merchant
 
-def merchant_info(request,template_name='merchant_info.html'):
+def merchant_registaration(request,template_name='merchant_registration.html'):
 	if request.method == "POST":
 		form = Add_merchantForm(request.POST or None)
 		if form.is_valid():
@@ -18,7 +18,7 @@ def merchant_info(request,template_name='merchant_info.html'):
 	ctx['form'] = form
 	return render(request, template_name, ctx)
 
-def merchant_details(request, slug=None, template_name='me.html'):
+def merchant_details(request, slug=None, template_name='merchant_details.html'):
 	info  = get_object_or_404(Merchant, slug=slug)
 	ctx = {}
 	ctx['info'] = info

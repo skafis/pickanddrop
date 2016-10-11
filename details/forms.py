@@ -2,7 +2,7 @@ import itertools
 from django import forms
 from django.utils.text import slugify
 
-from . models import Userdetails, Delivery, Merchant
+from . models import Userdetails, Delivery, Merchant, Item
 
 class Add_detailsForm(forms.ModelForm):
 	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -69,3 +69,10 @@ class Add_merchantForm(forms.ModelForm):
 		instance.save()
 
 		return instance
+
+class Add_itemForm(forms.ModelForm):
+		# name = forms.ModelChoiceField(queryset=Item.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'form-control selectpicker','data-live-search' : "true"}))	
+		item_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+		class Meta:
+			model = Item
+			fields = ['item_name','name']
