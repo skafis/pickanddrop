@@ -1,75 +1,25 @@
-import string, random
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from . models import Userdetails, Delivery, Merchant
-from . forms import Add_detailsForm,Add_coordinatesForm, Add_merchantForm
 
+import details.class_views.users as users 
+import details.class_views.merchants as merchants
 
-# Create your views here.
-def user_details(request):
-	if request.method == "POST":
-		form = Add_detailsForm(request.POST or None)
-		if form.is_valid():
-			instance = form.save(commit=False)
-			instance.save()
-			return HttpResponseRedirect(instance.get_absolute_url())
-	else:
-		form = Add_detailsForm()
-	return render(request, 'user_page.html', {'form':form})
+#customer
+def user_details(request,template_name='user_registration.html'):
+	return users.user_details(request,template_name=template_name)
 
-def user_location(request, slug=None):
-	user_info = get_object_or_404(Userdetails, slug=slug)
-	points = Merchant.objects.all()
-	form = Add_coordinatesForm(request.POST or None)
-	form.fields['first_name'].initial = get_object_or_404(Userdetails, slug=slug).first_name
-	form.fields['last_name'].initial = get_object_or_404(Userdetails, slug=slug).last_name
-	form.fields['email'].initial = get_object_or_404(Userdetails, slug=slug).email
+def user_location(request,slug, template_name='user_location.html'):
+	return users.user_location(request, slug, template_name=template_name)
 
-	ctx = {}
-	ctx['form']=form
+def token_generator(request,template_name='token_generator.html'):
+	return users.token_generator(request,template_name=template_name)
 
-	if form.is_valid():
-		instance = form.save(commit=False)
-		instance.save()
-		description='none'
-		types='MERCHANT'
-		reference='none'
-		return redirect('http://192.168.0.13/pickanddrop/pesapal-iframe.php?first_name=%s&last_name=%s&amount=%s&email=%s&description=%s&type=%s&reference=%s'%(request.POST['first_name'], 
-			request.POST['last_name'], request.POST['amount'], request.POST['email'],description,types,reference))
+# Merchant
+def merchant_info(request,template_name='merchant_info.html'):
+	return merchants.merchant_info(request,template_name=template_name)
 
-	return render(request, 'user_location.html',ctx)
+def merchant_details(request, slug, template_name='merchant_details.html'):
+	return merchants.merchant_details(request, slug, template_name=template_name)
 
-def token_generator(request):
-
-	# points = Merchant.objects.all()
-	points = Merchant.objects.all()
-
-	def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
-		return ''.join(random.choice(chars) for _ in range(size))
-	token = id_generator(7)
-	ctx = {}
-	ctx['token']=token
-	ctx['points'] = points
-	return render(request, 'token_generator.html', ctx)
-
-def merchant_info(request):
-	if request.method == "POST":
-		form = Add_merchantForm(request.POST or None)
-		if form.is_valid():
-			instance = form.save()
-			# instance = form.save(commit=False)
-			# instance.save()
-			return HttpResponseRedirect(instance.get_absolute_url())
-	else:
-		form = Add_merchantForm()
-	return render(request, 'merchant_info.html', {'form':form})
-
-def merchant_details(request, slug=None):
-	info  = get_object_or_404(Merchant, slug=slug)
-	ctx = {}
-	ctx['info'] = info
-	
-	return render (request, 'merchant_details.html', ctx)
 
 
