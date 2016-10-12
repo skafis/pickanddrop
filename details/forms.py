@@ -73,6 +73,7 @@ class Add_merchantForm(forms.ModelForm):
 class Add_itemForm(forms.ModelForm):
 		# name = forms.ModelChoiceField(queryset=Item.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'form-control selectpicker','data-live-search' : "true"}))	
 		item_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+		cost = forms.DecimalField(widget=forms.TextInput(attrs={'class':'form-control'}))
 		class Meta:
 			model = Item
-			fields = ['item_name','name']
+			fields = ['name','item_name','cost']

@@ -1,0 +1,8 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+{% block content %}
+<h4>item list</h4>
+{% for items in items %}
+	<a href="{{items.pk}}">{{items.item_name}}</a><br>
+{% endfor %}
+{% endblock content %}

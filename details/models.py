@@ -69,6 +69,7 @@ class Merchant(models.Model):
 class Item(models.Model):
 	name = models.ForeignKey(Merchant, verbose_name = 'Name', blank = True)
 	item_name = models.CharField(max_length=40)
+	cost = models.DecimalField(max_digits=9, decimal_places=2)
 	
 
 

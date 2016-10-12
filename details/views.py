@@ -26,5 +26,11 @@ def merchant_details(request, slug, template_name='merchant_details.html'):
 def add_items(request, slug, template_name='add_item.html'):
 	return item_list.add_items(request, slug,template_name=template_name)
 
+def view_items(request, template_name='view_items.html'):
+	return item_list.view_items(request, template_name=template_name)
 
+def view_items_details(request, pk, template_name='view_items_details.html'):
+	return item_list.view_items_details(request, pk, template_name=template_name)
 
+def register_user(request, pk, template_name='register_user.html'):
+	return item_list.register_user(request, pk, template_name=template_name)
