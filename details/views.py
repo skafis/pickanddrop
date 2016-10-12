@@ -6,8 +6,8 @@ import details.class_views.merchants as merchants
 import details.class_views.item_list as item_list
 
 #customer
-def user_details(request,template_name='user_registration.html'):
-	return users.user_details(request,template_name=template_name)
+def user_details(request,amount, template_name='user_registration.html'):
+	return users.user_details(request, amount, template_name=template_name)
  
 def user_location(request,slug, template_name='user_location.html'):
 	return users.user_location(request, slug, template_name=template_name)
@@ -34,3 +34,6 @@ def view_items_details(request, pk, template_name='view_items_details.html'):
 
 def register_user(request, pk, template_name='register_user.html'):
 	return item_list.register_user(request, pk, template_name=template_name)
+
+def get_user_location(request, pk, slug, template_name='get_user_location.html'):
+	return item_list.get_user_location(request, pk, slug, template_name=template_name)

@@ -14,6 +14,7 @@ class Userdetails(models.Model):
 	email = models.EmailField()
 	telephone = models.CharField(max_length=15)
 	country = models.CharField(max_length=250)
+	amount = models.DecimalField(max_digits=9, decimal_places=2)
 	
 
 	def __str__(self):

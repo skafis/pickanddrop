@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
 	# customer 
-	url(r'^$', views.user_details, name='home'),
+	url(r'^(?P<amount>\d+)/$', views.user_details, name='home'),
 	url(r'^location/(?P<slug>[\w-]+)/$', views.user_location, name='location'),
 	url(r'^token/$', views.token_generator, name='token'),
 
@@ -14,7 +14,6 @@ urlpatterns = [
 
 	#merchant item_list
 	url(r'^merchant/(?P<slug>[\w-]+)/item/$', views.add_items, name='item'),
-	url(r'^view/$', views.view_items, name='view'),
-	url(r'^view/(?P<pk>\d+)/$', views.view_items_details, name='view'),
-	url(r'^register_user/(?P<pk>\d+)/$', views.register_user, name='register_user'),
+	url(r'^$', views.view_items, name='view'),
+	url(r'^views/(?P<pk>\d+)/$', views.view_items_details, name='views'),
 	]
