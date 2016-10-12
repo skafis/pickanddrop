@@ -10,7 +10,7 @@ class Add_detailsForm(forms.ModelForm):
 	email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	telephone = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	country = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-	amount = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	amount = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
 	class Meta:
 		model = Userdetails
 		fields = [

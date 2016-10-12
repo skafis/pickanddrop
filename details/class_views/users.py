@@ -18,6 +18,7 @@ def user_details(request, amount, template_name='user_registration.html'):
 			instance = form.save(commit=False)
 			instance.save()
 			return HttpResponseRedirect(instance.get_absolute_url())
+			# return redirect("/location/%s" % (request.POST['first_name']))
 	#else:
 		#form = Add_detailsForm()
 	return render(request, template_name, ctx)

@@ -14,7 +14,7 @@ class Userdetails(models.Model):
 	email = models.EmailField()
 	telephone = models.CharField(max_length=15)
 	country = models.CharField(max_length=250)
-	amount = models.DecimalField(max_digits=9, decimal_places=2)
+	amount = models.DecimalField(max_digits=20, decimal_places=2)
 	
 
 	def __str__(self):
@@ -70,7 +70,7 @@ class Merchant(models.Model):
 class Item(models.Model):
 	name = models.ForeignKey(Merchant, verbose_name = 'Name', blank = True)
 	item_name = models.CharField(max_length=40)
-	cost = models.DecimalField(max_digits=9, decimal_places=2)
+	cost = models.DecimalField(max_digits=20, decimal_places=2)
 	
 
 
