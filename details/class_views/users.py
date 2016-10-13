@@ -24,13 +24,10 @@ def user_details(request, amount, template_name='user_registration.html'):
 	return render(request, template_name, ctx)
 
 def user_location(request, slug=None, template_name='user_location.html'):
-	user_info = get_object_or_404(Userdetails, slug=slug)
-	# points = Merchant.objects.all()
 	form = Add_coordinatesForm(request.POST or None)
-	form.fields['first_name'].initial = get_object_or_404(Userdetails, slug=slug).first_name
-	form.fields['last_name'].initial = get_object_or_404(Userdetails, slug=slug).last_name
-	form.fields['email'].initial = get_object_or_404(Userdetails, slug=slug).email
-
+	form.fields['first_name'].initial = Userdetails.objects.get(slug=slug).first_name
+	form.fields['last_name'].initial = Userdetails.objects.get(slug=slug).last_name
+	form.fields['email'].initial = Userdetails.objects.get(slug=slug).email
 	ctx = {}
 	ctx['form']=form
 

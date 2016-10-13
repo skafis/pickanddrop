@@ -1,6 +1,7 @@
 {% extends 'master.html' %}
 {% load staticfiles %}
 {% block content %}
- {{item.cost}}
-<a href="/{{amount}}">{{item.item_name}}</a>
+<h5>item:</h5>{{item.item_name}}<h5>Price: </h5> {{item.cost}}<br>
+ 
+<a href="/{{amount}}">buy</a>
 {% endblock content %}

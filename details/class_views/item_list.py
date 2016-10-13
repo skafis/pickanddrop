@@ -33,7 +33,6 @@ def view_items_details(request, pk, template_name='view_items_details.html'):
 def register_user(request, pk, template_name='register_user.html'):
 	if request.method == "POST":
 		form = Add_detailsForm(request.POST or None)
-		# form.fields['slug'].initial = get_object_or_404(Userdetails, slug=slug).email
 		if form.is_valid():
 			instance = form.save(commit=False)
 			instance.save()
@@ -49,12 +48,11 @@ def register_user(request, pk, template_name='register_user.html'):
 	return render(request, template_name, ctx)
 
 def get_user_location(request, pk, slug=None, template_name='get_user_location.html'):
-	user_info = get_object_or_404(Userdetails, slug=slug)
-	# points = Merchant.objects.all()
+	# user_info = Userdetails.objects.get(slug=slug)
 	form = Add_coordinatesForm(request.POST or None)
-	form.fields['first_name'].initial = get_object_or_404(Userdetails, slug=slug).first_name
-	form.fields['last_name'].initial = get_object_or_404(Userdetails, slug=slug).last_name
-	form.fields['email'].initial = get_object_or_404(Userdetails, slug=slug).email
+	form.fields['first_name'].initial = Userdetails.objects.get(slug=slug).first_name
+	form.fields['last_name'].initial = Userdetails.objects.get(slug=slug).last_name
+	form.fields['email'].initial = Userdetails.objects.get(slug=slug).email
 
 	ctx = {}
 	ctx['form']=form

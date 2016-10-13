@@ -19,7 +19,7 @@ def merchant_registaration(request,template_name='merchant_registration.html'):
 	return render(request, template_name, ctx)
 
 def merchant_details(request, slug=None, template_name='merchant_details.html'):
-	info  = get_object_or_404(Merchant, slug=slug)
+	info  = Merchant.objects.get(slug=slug)
 	ctx = {}
 	ctx['info'] = info
 	
