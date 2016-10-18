@@ -14,6 +14,15 @@
 <h2>Delivered at your door steps</h2>
 <div class="row">		
 	<h3>Enter your location</h3>
+	<button type="button" onclick="initialize();" >Calculate Distance</button>
+    <div id="price"></div>
+    <div id="error"></div>
+    <form method="POST">{% csrf_token %}
+    <div style="display: none;">
+	{{ form.as_p }}	
+	</div>
+	<button type="submit" class="button";" >Proceed To Payment</button>	
+    </form>
     <div id="map">
     	
     </div>
@@ -26,15 +35,8 @@
 				<td>&nbsp;</td>
 				<td><input class="form" type="text" name="address2" id="address2" size="50"/></td>
 			</tr>
-    <button type="button" onclick="initialize();" >Calculate Distance</button>
-    <div id="price"></div>
-    <div id="error"></div>
-    <form method="POST">{% csrf_token %}
-    <div style="display: none;">
-	{{ form.as_p }}	
-	</div>
-	<button type="submit" class="button";" >Proceed To Payment</button>	
-    </form>
+    
+    
 </div>
 {% endblock content %}
 

@@ -24,6 +24,7 @@ def user_details(request, amount, template_name='user_registration.html'):
 	return render(request, template_name, ctx)
 
 def user_location(request, slug=None, template_name='user_location.html'):
+	user_info = Userdetails.objects.get(slug=slug)
 	form = Add_coordinatesForm(request.POST or None)
 	form.fields['first_name'].initial = Userdetails.objects.get(slug=slug).first_name
 	form.fields['last_name'].initial = Userdetails.objects.get(slug=slug).last_name
