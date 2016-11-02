@@ -1,0 +1,50 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
+{% block content %}
+
+<div class='row cart_v'>
+{% if empty %}
+
+<h2 style='text-align:center;'>{{ empty_message }}</h2>
+
+{% else %}
+
+<div class="table-responsive">
+	<table class='table table-striped'>
+	<thead>
+		<th>Item</th>
+		<th>Qty</th>
+		<th>Actions</th>
+		<th>Price</th>
+	</thead>
+	<tfoot>
+	<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td class="total_cart">Total: {{ cart.total }}</td>
+	</tr>
+	</tfoot>
+	{% for item in cart.cartitem_set.all %}
+
+	<tr>
+		<td>{{ item.product }}</td>
+		<td>{{ item.quantity }}</td>
+		<td><a class="trash" href='{% url "shopping_cart:update_cart" item.product.id %}?qty=0'> <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+		<td>{{ item.product.cost }}</td>
+	</tr>
+	{% endfor %}
+
+	</table>
+</div>
+
+<div class="col-sm-5 col-sm-offset-7"><a class="btn btn-block btn-primary" href="{% url 'details:home' pk  %}">Check out</a></div>
+
+
+{% endif %}
+</div>
+{% endblock %}

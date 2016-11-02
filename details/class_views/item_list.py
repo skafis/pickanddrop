@@ -10,7 +10,7 @@ def add_items(request, slug,template_name='add_item.html'):
 		if form.is_valid():
 			# instance = form.save()
 			form.save()
-			return redirect ('view')
+			return redirect ('/')
 	else:
 		form = Add_itemForm()
 	ctx = {}
@@ -23,12 +23,12 @@ def view_items(request, template_name='view_items.html'):
 	ctx['items']= items
 	return render(request, template_name, ctx)
 
-def view_items_details(request, pk, template_name='view_items_details.html'):
-	item = Item.objects.get(pk=pk)
-	ctx = {}
-	ctx['item']= item
-	ctx['amount']= int(item.cost)
-	return render(request, template_name, ctx)
+# def view_items_details(request, pk, template_name='view_items_details.html'):
+# 	item = Item.objects.get(pk=pk)
+# 	ctx = {}
+# 	ctx['item']= item
+# 	ctx['amount']= int(item.cost)
+# 	return render(request, template_name, ctx)
 
 def register_user(request, pk, template_name='register_user.html'):
 	if request.method == "POST":

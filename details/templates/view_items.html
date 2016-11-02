@@ -1,9 +1,32 @@
-{% extends 'master.html' %}
+{% extends "front_des.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
 {% block content %}
-<h4>item list</h4>
-<h3><a href="/merchant">create merchant</a></h3>
-{% for items in items %}
-	<a href="views/{{items.pk}}">{{items.item_name}}</a><br>
-{% endfor %}
+<div id="slider">
+	<div class="container">
+			<div class="row">
+				<h1>International & Local Shipping made</br> Affordable and Easy too</h1>
+				<div class="col-sm-4 col-sm-offset-2"><a class="btn btn-primary btn-block b_des" href="/merchant">Create Merchant</a>
+				</div>
+				<div class="col-sm-4"><a class="btn btn-primary btn-block b_des" href="/merchant">Create Merchant</a>
+				</div>
+			</div>
+	</div>
+</div>
+
+<div id="listed">
+<div class="container">
+	<div class="row">
+	<h3>item list on Online Store</h3>
+	<div class="items">
+		{% for items in items %}
+			<div class="col-sm-3"><a href="cart/update/{{items.pk}}">{{items.item_name}}</a></div>
+		{% endfor %}
+	</div>
+	</div>
+</div>
+</div>
 {% endblock content %}

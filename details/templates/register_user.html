@@ -1,12 +1,17 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
 {% block content %}
+
 <h2>Enter Details</h2>
 <a href="{% url 'merchant' %}"> Merchant Registration</a>
 <div class="row">
 	<form method="POST">{% csrf_token %}
-	{{ form.as_p }}		
-	<button type="submit" class="button">save</button>
-	</form>	
+	{{ form.as_p }}
+	<button class="btn" type="submit" class="button">save</button>
+	</form>
 </div>
 {% endblock content %}

@@ -1,14 +1,20 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
 {% block content %}
-<h3>info</h3>
+
+
 <div class="row">
 	<div class="col-md-6">
-{{info.company}}<br>
-{{info.first_name}}<br>
-{{info.last_name}}<br>
-{{info.email}}<br>
-{{info.location}}<br>
+		<h3>Merchant Details</h3>
+		<div>{{info.company}}</div>
+		<div>{{info.first_name}}</div>
+		<div>{{info.last_name}}</div>
+		<div>{{info.email}}</div>
+		<div>{{info.location}}</div>
 </div>
 <div class="col-md-6">
 		<h2> Add Items</h2>

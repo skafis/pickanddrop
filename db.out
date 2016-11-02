@@ -1,0 +1,2618 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: cart_cart; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE cart_cart (
+    id integer NOT NULL,
+    creation_date timestamp with time zone NOT NULL,
+    checked_out boolean NOT NULL
+);
+
+
+ALTER TABLE public.cart_cart OWNER TO postgres;
+
+--
+-- Name: cart_cart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE cart_cart_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cart_cart_id_seq OWNER TO postgres;
+
+--
+-- Name: cart_cart_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE cart_cart_id_seq OWNED BY cart_cart.id;
+
+
+--
+-- Name: cart_item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE cart_item (
+    id integer NOT NULL,
+    quantity integer NOT NULL,
+    unit_price numeric(18,2) NOT NULL,
+    object_id integer NOT NULL,
+    cart_id integer NOT NULL,
+    content_type_id integer NOT NULL,
+    CONSTRAINT cart_item_object_id_check CHECK ((object_id >= 0)),
+    CONSTRAINT cart_item_quantity_check CHECK ((quantity >= 0))
+);
+
+
+ALTER TABLE public.cart_item OWNER TO postgres;
+
+--
+-- Name: cart_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE cart_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cart_item_id_seq OWNER TO postgres;
+
+--
+-- Name: cart_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE cart_item_id_seq OWNED BY cart_item.id;
+
+
+--
+-- Name: customers_customerphotos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE customers_customerphotos (
+    id integer NOT NULL,
+    photo character varying(100) NOT NULL,
+    transactioncode character varying(255) NOT NULL,
+    connectdate timestamp with time zone NOT NULL,
+    customerprofile_id integer NOT NULL
+);
+
+
+ALTER TABLE public.customers_customerphotos OWNER TO postgres;
+
+--
+-- Name: customers_customerphotos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE customers_customerphotos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customers_customerphotos_id_seq OWNER TO postgres;
+
+--
+-- Name: customers_customerphotos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE customers_customerphotos_id_seq OWNED BY customers_customerphotos.id;
+
+
+--
+-- Name: customers_customerprofile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE customers_customerprofile (
+    id integer NOT NULL,
+    firstname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    gender character varying(255) NOT NULL,
+    status boolean NOT NULL,
+    regdate timestamp with time zone NOT NULL,
+    group_id integer,
+    pin_id integer,
+    bankacc character varying(255) NOT NULL,
+    nationalid character varying(255) NOT NULL,
+    enterprise_id integer
+);
+
+
+ALTER TABLE public.customers_customerprofile OWNER TO postgres;
+
+--
+-- Name: customers_customerprofile_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE customers_customerprofile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customers_customerprofile_id_seq OWNER TO postgres;
+
+--
+-- Name: customers_customerprofile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE customers_customerprofile_id_seq OWNED BY customers_customerprofile.id;
+
+
+--
+-- Name: customers_deductions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE customers_deductions (
+    id integer NOT NULL,
+    postition character varying(255) NOT NULL,
+    taxtype character varying(255) NOT NULL,
+    totalamount numeric(19,2) NOT NULL,
+    percentagetodeduct numeric(19,2) NOT NULL,
+    transactiondate timestamp with time zone NOT NULL,
+    customerprofile_id integer NOT NULL,
+    enterprise_id integer
+);
+
+
+ALTER TABLE public.customers_deductions OWNER TO postgres;
+
+--
+-- Name: customers_deductions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE customers_deductions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customers_deductions_id_seq OWNER TO postgres;
+
+--
+-- Name: customers_deductions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE customers_deductions_id_seq OWNED BY customers_deductions.id;
+
+
+--
+-- Name: details_delivery; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE details_delivery (
+    id integer NOT NULL,
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    email character varying(254) NOT NULL,
+    amount character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.details_delivery OWNER TO postgres;
+
+--
+-- Name: details_delivery_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE details_delivery_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.details_delivery_id_seq OWNER TO postgres;
+
+--
+-- Name: details_delivery_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE details_delivery_id_seq OWNED BY details_delivery.id;
+
+
+--
+-- Name: details_item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE details_item (
+    id integer NOT NULL,
+    item_name character varying(40) NOT NULL,
+    cost numeric(20,2) NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.details_item OWNER TO postgres;
+
+--
+-- Name: details_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE details_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.details_item_id_seq OWNER TO postgres;
+
+--
+-- Name: details_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE details_item_id_seq OWNED BY details_item.id;
+
+
+--
+-- Name: details_merchant; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE details_merchant (
+    id integer NOT NULL,
+    company character varying(250) NOT NULL,
+    slug character varying(50) NOT NULL,
+    first_name character varying(250) NOT NULL,
+    last_name character varying(250) NOT NULL,
+    email character varying(254) NOT NULL,
+    telephone character varying(15) NOT NULL,
+    location character varying(40) NOT NULL
+);
+
+
+ALTER TABLE public.details_merchant OWNER TO postgres;
+
+--
+-- Name: details_merchant_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE details_merchant_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.details_merchant_id_seq OWNER TO postgres;
+
+--
+-- Name: details_merchant_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE details_merchant_id_seq OWNED BY details_merchant.id;
+
+
+--
+-- Name: details_userdetails; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE details_userdetails (
+    id integer NOT NULL,
+    first_name character varying(100) NOT NULL,
+    slug character varying(50) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    email character varying(254) NOT NULL,
+    telephone character varying(15) NOT NULL,
+    country character varying(250) NOT NULL,
+    amount numeric(20,2) NOT NULL
+);
+
+
+ALTER TABLE public.details_userdetails OWNER TO postgres;
+
+--
+-- Name: details_userdetails_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE details_userdetails_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.details_userdetails_id_seq OWNER TO postgres;
+
+--
+-- Name: details_userdetails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE details_userdetails_id_seq OWNED BY details_userdetails.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_migrations_id_seq OWNED BY django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: shopping_cart_cart; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shopping_cart_cart (
+    id integer NOT NULL,
+    total numeric(100,2) NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    active boolean NOT NULL
+);
+
+
+ALTER TABLE public.shopping_cart_cart OWNER TO postgres;
+
+--
+-- Name: shopping_cart_cart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shopping_cart_cart_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shopping_cart_cart_id_seq OWNER TO postgres;
+
+--
+-- Name: shopping_cart_cart_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shopping_cart_cart_id_seq OWNED BY shopping_cart_cart.id;
+
+
+--
+-- Name: shopping_cart_cartitem; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shopping_cart_cartitem (
+    id integer NOT NULL,
+    quantity integer NOT NULL,
+    line_total numeric(1000,2) NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    cart_id integer,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.shopping_cart_cartitem OWNER TO postgres;
+
+--
+-- Name: shopping_cart_cartitem_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shopping_cart_cartitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shopping_cart_cartitem_id_seq OWNER TO postgres;
+
+--
+-- Name: shopping_cart_cartitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shopping_cart_cartitem_id_seq OWNED BY shopping_cart_cartitem.id;
+
+
+--
+-- Name: shoppingcart_cart; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shoppingcart_cart (
+    id integer NOT NULL,
+    creation_date timestamp with time zone NOT NULL,
+    checked_out boolean NOT NULL
+);
+
+
+ALTER TABLE public.shoppingcart_cart OWNER TO postgres;
+
+--
+-- Name: shoppingcart_cart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shoppingcart_cart_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shoppingcart_cart_id_seq OWNER TO postgres;
+
+--
+-- Name: shoppingcart_cart_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shoppingcart_cart_id_seq OWNED BY shoppingcart_cart.id;
+
+
+--
+-- Name: shoppingcart_item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shoppingcart_item (
+    id integer NOT NULL,
+    quantity integer NOT NULL,
+    unit_price numeric(18,2) NOT NULL,
+    object_id integer NOT NULL,
+    cart_id integer NOT NULL,
+    content_type_id integer NOT NULL,
+    CONSTRAINT shoppingcart_item_object_id_check CHECK ((object_id >= 0)),
+    CONSTRAINT shoppingcart_item_quantity_check CHECK ((quantity >= 0))
+);
+
+
+ALTER TABLE public.shoppingcart_item OWNER TO postgres;
+
+--
+-- Name: shoppingcart_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shoppingcart_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shoppingcart_item_id_seq OWNER TO postgres;
+
+--
+-- Name: shoppingcart_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shoppingcart_item_id_seq OWNED BY shoppingcart_item.id;
+
+
+--
+-- Name: shoppingcart_product; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shoppingcart_product (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    quantity character varying(255) NOT NULL,
+    total_price character varying(255) NOT NULL,
+    unit_price numeric(18,2) NOT NULL
+);
+
+
+ALTER TABLE public.shoppingcart_product OWNER TO postgres;
+
+--
+-- Name: shoppingcart_product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shoppingcart_product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shoppingcart_product_id_seq OWNER TO postgres;
+
+--
+-- Name: shoppingcart_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shoppingcart_product_id_seq OWNED BY shoppingcart_product.id;
+
+
+--
+-- Name: smsgateway_phonebook; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE smsgateway_phonebook (
+    id integer NOT NULL,
+    country character varying(5000) NOT NULL,
+    phoneno character varying(255) NOT NULL,
+    group_id integer NOT NULL,
+    owner_id integer NOT NULL
+);
+
+
+ALTER TABLE public.smsgateway_phonebook OWNER TO postgres;
+
+--
+-- Name: smsgateway_phonebook_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE smsgateway_phonebook_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.smsgateway_phonebook_id_seq OWNER TO postgres;
+
+--
+-- Name: smsgateway_phonebook_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE smsgateway_phonebook_id_seq OWNED BY smsgateway_phonebook.id;
+
+
+--
+-- Name: smsgateway_sms; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE smsgateway_sms (
+    id integer NOT NULL,
+    text text NOT NULL,
+    deliverystatus character varying(255) NOT NULL,
+    messageid character varying(255) NOT NULL,
+    cost character varying(255) NOT NULL,
+    sendtime timestamp with time zone NOT NULL,
+    deleverytime timestamp with time zone NOT NULL,
+    latency integer NOT NULL,
+    owner_id integer NOT NULL,
+    reciever_id integer NOT NULL
+);
+
+
+ALTER TABLE public.smsgateway_sms OWNER TO postgres;
+
+--
+-- Name: smsgateway_sms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE smsgateway_sms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.smsgateway_sms_id_seq OWNER TO postgres;
+
+--
+-- Name: smsgateway_sms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE smsgateway_sms_id_seq OWNED BY smsgateway_sms.id;
+
+
+--
+-- Name: stations_enterprise; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE stations_enterprise (
+    id integer NOT NULL,
+    enterprisename character varying(255) NOT NULL,
+    accountnumber character varying(255) NOT NULL,
+    actualbalance numeric(19,2) NOT NULL,
+    pin character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.stations_enterprise OWNER TO postgres;
+
+--
+-- Name: stations_enterprise_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE stations_enterprise_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stations_enterprise_id_seq OWNER TO postgres;
+
+--
+-- Name: stations_enterprise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE stations_enterprise_id_seq OWNED BY stations_enterprise.id;
+
+
+--
+-- Name: stations_enterprisestaff; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE stations_enterprisestaff (
+    id integer NOT NULL,
+    enterprise_id integer NOT NULL,
+    owner_id integer NOT NULL
+);
+
+
+ALTER TABLE public.stations_enterprisestaff OWNER TO postgres;
+
+--
+-- Name: stations_enterprisestaff_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE stations_enterprisestaff_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stations_enterprisestaff_id_seq OWNER TO postgres;
+
+--
+-- Name: stations_enterprisestaff_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE stations_enterprisestaff_id_seq OWNED BY stations_enterprisestaff.id;
+
+
+--
+-- Name: stations_systemconfig; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE stations_systemconfig (
+    id integer NOT NULL,
+    command_label character varying(255) NOT NULL,
+    command character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.stations_systemconfig OWNER TO postgres;
+
+--
+-- Name: stations_systemconfig_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE stations_systemconfig_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stations_systemconfig_id_seq OWNER TO postgres;
+
+--
+-- Name: stations_systemconfig_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE stations_systemconfig_id_seq OWNED BY stations_systemconfig.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY cart_cart ALTER COLUMN id SET DEFAULT nextval('cart_cart_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY cart_item ALTER COLUMN id SET DEFAULT nextval('cart_item_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_customerphotos ALTER COLUMN id SET DEFAULT nextval('customers_customerphotos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_customerprofile ALTER COLUMN id SET DEFAULT nextval('customers_customerprofile_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_deductions ALTER COLUMN id SET DEFAULT nextval('customers_deductions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY details_delivery ALTER COLUMN id SET DEFAULT nextval('details_delivery_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY details_item ALTER COLUMN id SET DEFAULT nextval('details_item_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY details_merchant ALTER COLUMN id SET DEFAULT nextval('details_merchant_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY details_userdetails ALTER COLUMN id SET DEFAULT nextval('details_userdetails_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shopping_cart_cart ALTER COLUMN id SET DEFAULT nextval('shopping_cart_cart_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shopping_cart_cartitem ALTER COLUMN id SET DEFAULT nextval('shopping_cart_cartitem_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shoppingcart_cart ALTER COLUMN id SET DEFAULT nextval('shoppingcart_cart_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shoppingcart_item ALTER COLUMN id SET DEFAULT nextval('shoppingcart_item_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shoppingcart_product ALTER COLUMN id SET DEFAULT nextval('shoppingcart_product_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook ALTER COLUMN id SET DEFAULT nextval('smsgateway_phonebook_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_sms ALTER COLUMN id SET DEFAULT nextval('smsgateway_sms_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY stations_enterprise ALTER COLUMN id SET DEFAULT nextval('stations_enterprise_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY stations_enterprisestaff ALTER COLUMN id SET DEFAULT nextval('stations_enterprisestaff_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY stations_systemconfig ALTER COLUMN id SET DEFAULT nextval('stations_systemconfig_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO auth_permission VALUES (1, 'Can add enterprise', 1, 'add_enterprise');
+INSERT INTO auth_permission VALUES (2, 'Can change enterprise', 1, 'change_enterprise');
+INSERT INTO auth_permission VALUES (3, 'Can delete enterprise', 1, 'delete_enterprise');
+INSERT INTO auth_permission VALUES (4, 'Can add enterprise staff', 2, 'add_enterprisestaff');
+INSERT INTO auth_permission VALUES (5, 'Can change enterprise staff', 2, 'change_enterprisestaff');
+INSERT INTO auth_permission VALUES (6, 'Can delete enterprise staff', 2, 'delete_enterprisestaff');
+INSERT INTO auth_permission VALUES (7, 'Can add system config', 3, 'add_systemconfig');
+INSERT INTO auth_permission VALUES (8, 'Can change system config', 3, 'change_systemconfig');
+INSERT INTO auth_permission VALUES (9, 'Can delete system config', 3, 'delete_systemconfig');
+INSERT INTO auth_permission VALUES (10, 'Can add phone book', 4, 'add_phonebook');
+INSERT INTO auth_permission VALUES (11, 'Can change phone book', 4, 'change_phonebook');
+INSERT INTO auth_permission VALUES (12, 'Can delete phone book', 4, 'delete_phonebook');
+INSERT INTO auth_permission VALUES (13, 'Can add sms', 5, 'add_sms');
+INSERT INTO auth_permission VALUES (14, 'Can change sms', 5, 'change_sms');
+INSERT INTO auth_permission VALUES (15, 'Can delete sms', 5, 'delete_sms');
+INSERT INTO auth_permission VALUES (16, 'Can add customer profile', 6, 'add_customerprofile');
+INSERT INTO auth_permission VALUES (17, 'Can change customer profile', 6, 'change_customerprofile');
+INSERT INTO auth_permission VALUES (18, 'Can delete customer profile', 6, 'delete_customerprofile');
+INSERT INTO auth_permission VALUES (19, 'Can add deductions', 7, 'add_deductions');
+INSERT INTO auth_permission VALUES (20, 'Can change deductions', 7, 'change_deductions');
+INSERT INTO auth_permission VALUES (21, 'Can delete deductions', 7, 'delete_deductions');
+INSERT INTO auth_permission VALUES (22, 'Can add customer photos', 8, 'add_customerphotos');
+INSERT INTO auth_permission VALUES (23, 'Can change customer photos', 8, 'change_customerphotos');
+INSERT INTO auth_permission VALUES (24, 'Can delete customer photos', 8, 'delete_customerphotos');
+INSERT INTO auth_permission VALUES (25, 'Can add log entry', 9, 'add_logentry');
+INSERT INTO auth_permission VALUES (26, 'Can change log entry', 9, 'change_logentry');
+INSERT INTO auth_permission VALUES (27, 'Can delete log entry', 9, 'delete_logentry');
+INSERT INTO auth_permission VALUES (28, 'Can add permission', 10, 'add_permission');
+INSERT INTO auth_permission VALUES (29, 'Can change permission', 10, 'change_permission');
+INSERT INTO auth_permission VALUES (30, 'Can delete permission', 10, 'delete_permission');
+INSERT INTO auth_permission VALUES (31, 'Can add group', 11, 'add_group');
+INSERT INTO auth_permission VALUES (32, 'Can change group', 11, 'change_group');
+INSERT INTO auth_permission VALUES (33, 'Can delete group', 11, 'delete_group');
+INSERT INTO auth_permission VALUES (34, 'Can add user', 12, 'add_user');
+INSERT INTO auth_permission VALUES (35, 'Can change user', 12, 'change_user');
+INSERT INTO auth_permission VALUES (36, 'Can delete user', 12, 'delete_user');
+INSERT INTO auth_permission VALUES (37, 'Can add content type', 13, 'add_contenttype');
+INSERT INTO auth_permission VALUES (38, 'Can change content type', 13, 'change_contenttype');
+INSERT INTO auth_permission VALUES (39, 'Can delete content type', 13, 'delete_contenttype');
+INSERT INTO auth_permission VALUES (40, 'Can add session', 14, 'add_session');
+INSERT INTO auth_permission VALUES (41, 'Can change session', 14, 'change_session');
+INSERT INTO auth_permission VALUES (42, 'Can delete session', 14, 'delete_session');
+INSERT INTO auth_permission VALUES (43, 'Can add cart', 15, 'add_cart');
+INSERT INTO auth_permission VALUES (44, 'Can change cart', 15, 'change_cart');
+INSERT INTO auth_permission VALUES (45, 'Can delete cart', 15, 'delete_cart');
+INSERT INTO auth_permission VALUES (46, 'Can add item', 16, 'add_item');
+INSERT INTO auth_permission VALUES (47, 'Can change item', 16, 'change_item');
+INSERT INTO auth_permission VALUES (48, 'Can delete item', 16, 'delete_item');
+INSERT INTO auth_permission VALUES (49, 'Can add product', 17, 'add_product');
+INSERT INTO auth_permission VALUES (50, 'Can change product', 17, 'change_product');
+INSERT INTO auth_permission VALUES (51, 'Can delete product', 17, 'delete_product');
+INSERT INTO auth_permission VALUES (52, 'Can add cart', 18, 'add_cart');
+INSERT INTO auth_permission VALUES (53, 'Can change cart', 18, 'change_cart');
+INSERT INTO auth_permission VALUES (54, 'Can delete cart', 18, 'delete_cart');
+INSERT INTO auth_permission VALUES (55, 'Can add item', 19, 'add_item');
+INSERT INTO auth_permission VALUES (56, 'Can change item', 19, 'change_item');
+INSERT INTO auth_permission VALUES (57, 'Can delete item', 19, 'delete_item');
+INSERT INTO auth_permission VALUES (58, 'Can add userdetails', 20, 'add_userdetails');
+INSERT INTO auth_permission VALUES (59, 'Can change userdetails', 20, 'change_userdetails');
+INSERT INTO auth_permission VALUES (60, 'Can delete userdetails', 20, 'delete_userdetails');
+INSERT INTO auth_permission VALUES (61, 'Can add delivery', 21, 'add_delivery');
+INSERT INTO auth_permission VALUES (62, 'Can change delivery', 21, 'change_delivery');
+INSERT INTO auth_permission VALUES (63, 'Can delete delivery', 21, 'delete_delivery');
+INSERT INTO auth_permission VALUES (64, 'Can add merchant', 22, 'add_merchant');
+INSERT INTO auth_permission VALUES (65, 'Can change merchant', 22, 'change_merchant');
+INSERT INTO auth_permission VALUES (66, 'Can delete merchant', 22, 'delete_merchant');
+INSERT INTO auth_permission VALUES (67, 'Can add item', 23, 'add_item');
+INSERT INTO auth_permission VALUES (68, 'Can change item', 23, 'change_item');
+INSERT INTO auth_permission VALUES (69, 'Can delete item', 23, 'delete_item');
+INSERT INTO auth_permission VALUES (70, 'Can add cart item', 24, 'add_cartitem');
+INSERT INTO auth_permission VALUES (71, 'Can change cart item', 24, 'change_cartitem');
+INSERT INTO auth_permission VALUES (72, 'Can delete cart item', 24, 'delete_cartitem');
+INSERT INTO auth_permission VALUES (73, 'Can add cart', 25, 'add_cart');
+INSERT INTO auth_permission VALUES (74, 'Can change cart', 25, 'change_cart');
+INSERT INTO auth_permission VALUES (75, 'Can delete cart', 25, 'delete_cart');
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 75, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO auth_user VALUES (2, 'pbkdf2_sha256$24000$jcyCUjMkUPlR$tFPuD2x90E0V98ThL6WaWvIXgKYYMgIvQPoC8xdprU8=', '2016-10-02 12:29:16.08321+03', true, 'masharia', '', '', '', true, true, '2016-10-02 12:28:28.500531+03');
+INSERT INTO auth_user VALUES (1, 'pbkdf2_sha256$24000$Z6LstSG9Z7Xq$Na9CbivJYehZoNBSiOEi7ABeAHeYxZqKigLmSxqO2j8=', '2016-10-14 07:43:02.941572+03', true, 'e-coins', '', '', '', true, true, '2016-09-18 20:48:50.996615+03');
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 2, true);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: cart_cart; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: cart_cart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('cart_cart_id_seq', 1, false);
+
+
+--
+-- Data for Name: cart_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: cart_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('cart_item_id_seq', 1, false);
+
+
+--
+-- Data for Name: customers_customerphotos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: customers_customerphotos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('customers_customerphotos_id_seq', 1, false);
+
+
+--
+-- Data for Name: customers_customerprofile; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: customers_customerprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('customers_customerprofile_id_seq', 1, false);
+
+
+--
+-- Data for Name: customers_deductions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: customers_deductions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('customers_deductions_id_seq', 1, false);
+
+
+--
+-- Data for Name: details_delivery; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO details_delivery VALUES (1, 'Francis', 'Yes', 'tituskamaumbugua@gmail.com', '82');
+INSERT INTO details_delivery VALUES (2, 'Francis', 'Yes', 'tituskamaumbugua@gmail.com', '82');
+
+
+--
+-- Name: details_delivery_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('details_delivery_id_seq', 2, true);
+
+
+--
+-- Data for Name: details_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO details_item VALUES (1, 'Cooking Gas', 1999.00, 2);
+INSERT INTO details_item VALUES (2, 'Cooking Gas', 1999.00, 2);
+INSERT INTO details_item VALUES (3, 'Cooking Gas', 1999.00, 2);
+INSERT INTO details_item VALUES (4, 'Cooking Gas', 1999.00, 2);
+
+
+--
+-- Name: details_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('details_item_id_seq', 4, true);
+
+
+--
+-- Data for Name: details_merchant; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO details_merchant VALUES (1, 'ButterFly', 'butterfly', 'John', 'Doe', 'foo@bar.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (2, 'ButterFly', 'butterfly-1', 'John', 'Doe', 'foo@bar.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (3, 'ButterFly', 'butterfly-2', 'Brian', 'Yes', 'tituskamaumbugua@gmail.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (4, 'ButterFly', 'butterfly-3', 'Brian', 'Doe', 'bryantsmart01@gmail.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (5, 'ButterFly', 'butterfly-4', 'Brian', 'Doe', 'bryantsmart01@gmail.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (6, 'ButterFly', 'butterfly-5', 'Brian', 'mbindyu', 'tituskamaumbugua@gmail.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (7, 'ButterFly', 'butterfly-6', 'Brian', 'mbindyu', 'tituskamaumbugua@gmail.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+INSERT INTO details_merchant VALUES (8, 'timatech', 'timatech', 'Brian', 'mbindyu', 'tituskamaumbugua@gmail.com', '0720889891', '-1.2882529913716734, 36.82687997817993');
+
+
+--
+-- Name: details_merchant_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('details_merchant_id_seq', 8, true);
+
+
+--
+-- Data for Name: details_userdetails; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO details_userdetails VALUES (1, 'Brian', 'brian', 'Yes', 'bryantsmart01@gmail.com', '0720889891', '254', 1999.00);
+INSERT INTO details_userdetails VALUES (2, 'Brian', 'brian-1', 'Yes', 'tituskamaumbugua@gmail.com', '0720889891', '254', 1999.00);
+INSERT INTO details_userdetails VALUES (3, 'Brian', 'brian-1-2', 'Yes', 'tituskamaumbugua@gmail.com', '0720889891', '254', 1999.00);
+INSERT INTO details_userdetails VALUES (4, 'Francis', 'francis', 'Yes', 'tituskamaumbugua@gmail.com', '0720889891', '254', 1999.00);
+
+
+--
+-- Name: details_userdetails_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('details_userdetails_id_seq', 4, true);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 1, false);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_content_type VALUES (1, 'stations', 'enterprise');
+INSERT INTO django_content_type VALUES (2, 'stations', 'enterprisestaff');
+INSERT INTO django_content_type VALUES (3, 'stations', 'systemconfig');
+INSERT INTO django_content_type VALUES (4, 'smsgateway', 'phonebook');
+INSERT INTO django_content_type VALUES (5, 'smsgateway', 'sms');
+INSERT INTO django_content_type VALUES (6, 'customers', 'customerprofile');
+INSERT INTO django_content_type VALUES (7, 'customers', 'deductions');
+INSERT INTO django_content_type VALUES (8, 'customers', 'customerphotos');
+INSERT INTO django_content_type VALUES (9, 'admin', 'logentry');
+INSERT INTO django_content_type VALUES (10, 'auth', 'permission');
+INSERT INTO django_content_type VALUES (11, 'auth', 'group');
+INSERT INTO django_content_type VALUES (12, 'auth', 'user');
+INSERT INTO django_content_type VALUES (13, 'contenttypes', 'contenttype');
+INSERT INTO django_content_type VALUES (14, 'sessions', 'session');
+INSERT INTO django_content_type VALUES (15, 'cart', 'cart');
+INSERT INTO django_content_type VALUES (16, 'cart', 'item');
+INSERT INTO django_content_type VALUES (17, 'shoppingcart', 'product');
+INSERT INTO django_content_type VALUES (18, 'shoppingcart', 'cart');
+INSERT INTO django_content_type VALUES (19, 'shoppingcart', 'item');
+INSERT INTO django_content_type VALUES (20, 'details', 'userdetails');
+INSERT INTO django_content_type VALUES (21, 'details', 'delivery');
+INSERT INTO django_content_type VALUES (22, 'details', 'merchant');
+INSERT INTO django_content_type VALUES (23, 'details', 'item');
+INSERT INTO django_content_type VALUES (24, 'shopping_cart', 'cartitem');
+INSERT INTO django_content_type VALUES (25, 'shopping_cart', 'cart');
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 25, true);
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_migrations VALUES (1, 'contenttypes', '0001_initial', '2016-09-18 20:47:24.767716+03');
+INSERT INTO django_migrations VALUES (2, 'auth', '0001_initial', '2016-09-18 20:47:25.653496+03');
+INSERT INTO django_migrations VALUES (3, 'admin', '0001_initial', '2016-09-18 20:47:25.832565+03');
+INSERT INTO django_migrations VALUES (4, 'admin', '0002_logentry_remove_auto_add', '2016-09-18 20:47:25.864112+03');
+INSERT INTO django_migrations VALUES (5, 'contenttypes', '0002_remove_content_type_name', '2016-09-18 20:47:25.906236+03');
+INSERT INTO django_migrations VALUES (6, 'auth', '0002_alter_permission_name_max_length', '2016-09-18 20:47:25.937908+03');
+INSERT INTO django_migrations VALUES (7, 'auth', '0003_alter_user_email_max_length', '2016-09-18 20:47:25.969318+03');
+INSERT INTO django_migrations VALUES (8, 'auth', '0004_alter_user_username_opts', '2016-09-18 20:47:25.988908+03');
+INSERT INTO django_migrations VALUES (9, 'auth', '0005_alter_user_last_login_null', '2016-09-18 20:47:26.022082+03');
+INSERT INTO django_migrations VALUES (10, 'auth', '0006_require_contenttypes_0002', '2016-09-18 20:47:26.032673+03');
+INSERT INTO django_migrations VALUES (11, 'auth', '0007_alter_validators_add_error_messages', '2016-09-18 20:47:26.051995+03');
+INSERT INTO django_migrations VALUES (12, 'stations', '0001_initial', '2016-09-18 20:47:26.886969+03');
+INSERT INTO django_migrations VALUES (13, 'stations', '0002_auto_20160913_2125', '2016-09-18 20:47:27.024971+03');
+INSERT INTO django_migrations VALUES (14, 'stations', '0003_auto_20160913_2133', '2016-09-18 20:47:27.097835+03');
+INSERT INTO django_migrations VALUES (15, 'stations', '0004_enterprisestaff', '2016-09-18 20:47:27.266303+03');
+INSERT INTO django_migrations VALUES (16, 'customers', '0001_initial', '2016-09-18 20:47:27.605085+03');
+INSERT INTO django_migrations VALUES (17, 'customers', '0002_auto_20160913_1945', '2016-09-18 20:47:29.460969+03');
+INSERT INTO django_migrations VALUES (18, 'customers', '0003_auto_20160913_2012', '2016-09-18 20:47:29.512314+03');
+INSERT INTO django_migrations VALUES (19, 'customers', '0004_auto_20160913_2050', '2016-09-18 20:47:29.712855+03');
+INSERT INTO django_migrations VALUES (20, 'customers', '0005_customerprofile_enterprise', '2016-09-18 20:47:30.039891+03');
+INSERT INTO django_migrations VALUES (21, 'customers', '0006_auto_20160913_2232', '2016-09-18 20:47:30.092219+03');
+INSERT INTO django_migrations VALUES (22, 'customers', '0007_auto_20160913_2314', '2016-09-18 20:47:30.494147+03');
+INSERT INTO django_migrations VALUES (23, 'sessions', '0001_initial', '2016-09-18 20:47:30.72446+03');
+INSERT INTO django_migrations VALUES (24, 'smsgateway', '0001_initial', '2016-09-18 20:47:31.135569+03');
+INSERT INTO django_migrations VALUES (25, 'stations', '0005_auto_20160913_2350', '2016-09-18 20:47:31.515617+03');
+INSERT INTO django_migrations VALUES (26, 'cart', '0001_initial', '2016-09-18 21:42:01.475926+03');
+INSERT INTO django_migrations VALUES (27, 'shoppingcart', '0001_initial', '2016-09-18 21:42:02.160857+03');
+INSERT INTO django_migrations VALUES (28, 'shoppingcart', '0002_product_unit_price', '2016-09-18 23:20:12.485943+03');
+INSERT INTO django_migrations VALUES (29, 'details', '0001_initial', '2016-10-26 18:41:34.746961+03');
+INSERT INTO django_migrations VALUES (30, 'details', '0002_auto_20161026_1406', '2016-10-26 18:41:34.809725+03');
+INSERT INTO django_migrations VALUES (31, 'shopping_cart', '0001_initial', '2016-10-26 18:41:35.041976+03');
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_migrations_id_seq', 31, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_session VALUES ('lzcbr3ti6dn0wisoc9u41d4pui60r3vs', 'Mzg3NjgyMzk3Zjc0OTk4ZDY4M2IwNzM5N2JiZTJjY2VhYmVkYzhhMjp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZDhkYWVjZmI0ZjkwOGUzOTNkNDJlNDVhNjVkYjM4ZDhjZDhlZWYiLCJDQVJULUlEIjoxMCwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCJ9', '2016-10-03 13:57:40.753008+03');
+INSERT INTO django_session VALUES ('ljommoew7yi26lpntak62n3fo43uf1p3', 'NTBjM2M2ZDdiZjg1ZTU2ZDM2ZjA3NWM0NmI1OTlhYTU5ZWViYTcxODp7Il9hdXRoX3VzZXJfaGFzaCI6IjZjZGU2MzAwYzI3YzA0YzY2ZDg4OTM4ZjRkNjFiNzIyNjY4OTQ2ZTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-10-16 12:29:16.249341+03');
+INSERT INTO django_session VALUES ('s0s9cvsdq16yhqco2gpi2vgot9gx486r', 'MWFiODQ5ZDM3MTE0NTkzNTVhNDRkYzc2NzA5ZDEwYTJhMzFhOGMwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZDhkYWVjZmI0ZjkwOGUzOTNkNDJlNDVhNjVkYjM4ZDhjZDhlZWYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-10-18 15:25:30.297139+03');
+INSERT INTO django_session VALUES ('50t2q13is1cqsgv13yehbgqi1grailz1', 'MWFiODQ5ZDM3MTE0NTkzNTVhNDRkYzc2NzA5ZDEwYTJhMzFhOGMwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZDhkYWVjZmI0ZjkwOGUzOTNkNDJlNDVhNjVkYjM4ZDhjZDhlZWYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-10-28 07:43:03.101532+03');
+INSERT INTO django_session VALUES ('0emrnfok8wzg9tnsqqy00jonpl9s0xer', 'ODk3MDM2NWQxMjQ2MTJhMDU1MDJhMTZiNWE0ZTE4MjU3MTRlNjI5ZTp7Iml0ZW1zX3RvdGFsIjoxLCJjYXJ0X2lkIjoxLCJfc2Vzc2lvbl9leHBpcnkiOjEyMDB9', '2016-10-26 19:18:19.556277+03');
+
+
+--
+-- Data for Name: shopping_cart_cart; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO shopping_cart_cart VALUES (1, 1999.00, '2016-10-26 18:58:19.008033+03', '2016-10-26 18:58:19.252183+03', true);
+
+
+--
+-- Name: shopping_cart_cart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shopping_cart_cart_id_seq', 1, true);
+
+
+--
+-- Data for Name: shopping_cart_cartitem; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO shopping_cart_cartitem VALUES (1, 1, 10.99, '2016-10-26 18:58:19.054312+03', '2016-10-26 18:58:19.054336+03', 1, 4);
+
+
+--
+-- Name: shopping_cart_cartitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shopping_cart_cartitem_id_seq', 1, true);
+
+
+--
+-- Data for Name: shoppingcart_cart; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO shoppingcart_cart VALUES (1, '2016-09-18 22:37:34.007537+03', false);
+INSERT INTO shoppingcart_cart VALUES (2, '2016-09-18 23:18:23.5629+03', false);
+INSERT INTO shoppingcart_cart VALUES (3, '2016-09-18 23:20:18.36493+03', false);
+INSERT INTO shoppingcart_cart VALUES (4, '2016-09-18 23:24:20.908274+03', false);
+INSERT INTO shoppingcart_cart VALUES (5, '2016-09-18 23:24:23.529812+03', false);
+INSERT INTO shoppingcart_cart VALUES (6, '2016-09-18 23:28:17.587612+03', false);
+INSERT INTO shoppingcart_cart VALUES (7, '2016-09-18 23:37:57.331628+03', false);
+INSERT INTO shoppingcart_cart VALUES (8, '2016-09-18 23:39:50.853331+03', false);
+INSERT INTO shoppingcart_cart VALUES (9, '2016-09-18 23:41:16.723168+03', false);
+INSERT INTO shoppingcart_cart VALUES (10, '2016-09-19 13:57:40.459561+03', false);
+
+
+--
+-- Name: shoppingcart_cart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shoppingcart_cart_id_seq', 10, true);
+
+
+--
+-- Data for Name: shoppingcart_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO shoppingcart_item VALUES (1, 1, 10000.00, 1, 6, 17);
+INSERT INTO shoppingcart_item VALUES (2, 1, 10000.00, 1, 7, 17);
+INSERT INTO shoppingcart_item VALUES (3, 1, 10000.00, 1, 8, 17);
+
+
+--
+-- Name: shoppingcart_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shoppingcart_item_id_seq', 8, true);
+
+
+--
+-- Data for Name: shoppingcart_product; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO shoppingcart_product VALUES (1, 'I Phone', '2', '70000', 10000.00);
+INSERT INTO shoppingcart_product VALUES (2, 'LED TV Samsung', '1', '50000', 10000.00);
+
+
+--
+-- Name: shoppingcart_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shoppingcart_product_id_seq', 2, true);
+
+
+--
+-- Data for Name: smsgateway_phonebook; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: smsgateway_phonebook_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('smsgateway_phonebook_id_seq', 1, false);
+
+
+--
+-- Data for Name: smsgateway_sms; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: smsgateway_sms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('smsgateway_sms_id_seq', 1, false);
+
+
+--
+-- Data for Name: stations_enterprise; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: stations_enterprise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('stations_enterprise_id_seq', 1, false);
+
+
+--
+-- Data for Name: stations_enterprisestaff; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: stations_enterprisestaff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('stations_enterprisestaff_id_seq', 1, false);
+
+
+--
+-- Data for Name: stations_systemconfig; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: stations_systemconfig_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('stations_systemconfig_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: cart_cart_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY cart_cart
+    ADD CONSTRAINT cart_cart_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cart_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY cart_item
+    ADD CONSTRAINT cart_item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customers_customerphotos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY customers_customerphotos
+    ADD CONSTRAINT customers_customerphotos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customers_customerprofile_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY customers_customerprofile
+    ADD CONSTRAINT customers_customerprofile_email_key UNIQUE (email);
+
+
+--
+-- Name: customers_customerprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY customers_customerprofile
+    ADD CONSTRAINT customers_customerprofile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customers_deductions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY customers_deductions
+    ADD CONSTRAINT customers_deductions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: details_delivery_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY details_delivery
+    ADD CONSTRAINT details_delivery_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: details_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY details_item
+    ADD CONSTRAINT details_item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: details_merchant_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY details_merchant
+    ADD CONSTRAINT details_merchant_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: details_merchant_slug_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY details_merchant
+    ADD CONSTRAINT details_merchant_slug_key UNIQUE (slug);
+
+
+--
+-- Name: details_userdetails_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY details_userdetails
+    ADD CONSTRAINT details_userdetails_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: details_userdetails_slug_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY details_userdetails
+    ADD CONSTRAINT details_userdetails_slug_key UNIQUE (slug);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: shopping_cart_cart_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shopping_cart_cart
+    ADD CONSTRAINT shopping_cart_cart_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shopping_cart_cartitem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shopping_cart_cartitem
+    ADD CONSTRAINT shopping_cart_cartitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shoppingcart_cart_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shoppingcart_cart
+    ADD CONSTRAINT shoppingcart_cart_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shoppingcart_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shoppingcart_item
+    ADD CONSTRAINT shoppingcart_item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shoppingcart_product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shoppingcart_product
+    ADD CONSTRAINT shoppingcart_product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: smsgateway_phonebook_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebook_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: smsgateway_sms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY smsgateway_sms
+    ADD CONSTRAINT smsgateway_sms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stations_enterprise_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY stations_enterprise
+    ADD CONSTRAINT stations_enterprise_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stations_enterprisestaff_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY stations_enterprisestaff
+    ADD CONSTRAINT stations_enterprisestaff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stations_systemconfig_command_label_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY stations_systemconfig
+    ADD CONSTRAINT stations_systemconfig_command_label_key UNIQUE (command_label);
+
+
+--
+-- Name: stations_systemconfig_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY stations_systemconfig
+    ADD CONSTRAINT stations_systemconfig_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_0e939a4f ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_8373b171 ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_permission_417f1b1c ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_0e939a4f ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_e8701ad4 ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_8373b171 ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_e8701ad4 ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: cart_item_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX cart_item_417f1b1c ON cart_item USING btree (content_type_id);
+
+
+--
+-- Name: cart_item_c44d83f7; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX cart_item_c44d83f7 ON cart_item USING btree (cart_id);
+
+
+--
+-- Name: customers_customerphotos_38972b87; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_customerphotos_38972b87 ON customers_customerphotos USING btree (customerprofile_id);
+
+
+--
+-- Name: customers_customerprofile_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_customerprofile_0e939a4f ON customers_customerprofile USING btree (group_id);
+
+
+--
+-- Name: customers_customerprofile_a159d0f6; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_customerprofile_a159d0f6 ON customers_customerprofile USING btree (enterprise_id);
+
+
+--
+-- Name: customers_customerprofile_bbe0c9aa; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_customerprofile_bbe0c9aa ON customers_customerprofile USING btree (pin_id);
+
+
+--
+-- Name: customers_customerprofile_email_60bedb12_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_customerprofile_email_60bedb12_like ON customers_customerprofile USING btree (email varchar_pattern_ops);
+
+
+--
+-- Name: customers_deductions_38972b87; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_deductions_38972b87 ON customers_deductions USING btree (customerprofile_id);
+
+
+--
+-- Name: customers_deductions_a159d0f6; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX customers_deductions_a159d0f6 ON customers_deductions USING btree (enterprise_id);
+
+
+--
+-- Name: details_item_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX details_item_3db78b68 ON details_item USING btree (name_id);
+
+
+--
+-- Name: details_merchant_slug_e89fcdca_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX details_merchant_slug_e89fcdca_like ON details_merchant USING btree (slug varchar_pattern_ops);
+
+
+--
+-- Name: details_userdetails_slug_d5414535_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX details_userdetails_slug_d5414535_like ON details_userdetails USING btree (slug varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_417f1b1c ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_e8701ad4 ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_de54fa62 ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: shopping_cart_cartitem_9bea82de; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shopping_cart_cartitem_9bea82de ON shopping_cart_cartitem USING btree (product_id);
+
+
+--
+-- Name: shopping_cart_cartitem_c44d83f7; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shopping_cart_cartitem_c44d83f7 ON shopping_cart_cartitem USING btree (cart_id);
+
+
+--
+-- Name: shoppingcart_item_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shoppingcart_item_417f1b1c ON shoppingcart_item USING btree (content_type_id);
+
+
+--
+-- Name: shoppingcart_item_c44d83f7; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shoppingcart_item_c44d83f7 ON shoppingcart_item USING btree (cart_id);
+
+
+--
+-- Name: smsgateway_phonebook_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_phonebook_0e939a4f ON smsgateway_phonebook USING btree (group_id);
+
+
+--
+-- Name: smsgateway_phonebook_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_phonebook_5e7b1936 ON smsgateway_phonebook USING btree (owner_id);
+
+
+--
+-- Name: smsgateway_sms_3b468328; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_sms_3b468328 ON smsgateway_sms USING btree (reciever_id);
+
+
+--
+-- Name: smsgateway_sms_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_sms_5e7b1936 ON smsgateway_sms USING btree (owner_id);
+
+
+--
+-- Name: stations_enterprisestaff_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX stations_enterprisestaff_5e7b1936 ON stations_enterprisestaff USING btree (owner_id);
+
+
+--
+-- Name: stations_enterprisestaff_a159d0f6; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX stations_enterprisestaff_a159d0f6 ON stations_enterprisestaff USING btree (enterprise_id);
+
+
+--
+-- Name: stations_systemconfig_command_label_d5a03669_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX stations_systemconfig_command_label_d5a03669_like ON stations_systemconfig USING btree (command_label varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: cart_item_cart_id_157ecf5f_fk_cart_cart_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY cart_item
+    ADD CONSTRAINT cart_item_cart_id_157ecf5f_fk_cart_cart_id FOREIGN KEY (cart_id) REFERENCES cart_cart(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: cart_item_content_type_id_5737916f_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY cart_item
+    ADD CONSTRAINT cart_item_content_type_id_5737916f_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: cus_customerprofile_id_29ecd0f9_fk_customers_customerprofile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_customerphotos
+    ADD CONSTRAINT cus_customerprofile_id_29ecd0f9_fk_customers_customerprofile_id FOREIGN KEY (customerprofile_id) REFERENCES customers_customerprofile(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: cus_customerprofile_id_84c5ba3a_fk_customers_customerprofile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_deductions
+    ADD CONSTRAINT cus_customerprofile_id_84c5ba3a_fk_customers_customerprofile_id FOREIGN KEY (customerprofile_id) REFERENCES customers_customerprofile(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: customers_cust_enterprise_id_086297d5_fk_stations_enterprise_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_customerprofile
+    ADD CONSTRAINT customers_cust_enterprise_id_086297d5_fk_stations_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES stations_enterprise(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: customers_customerprofile_group_id_a63abff3_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_customerprofile
+    ADD CONSTRAINT customers_customerprofile_group_id_a63abff3_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: customers_customerprofile_pin_id_7be2ae21_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_customerprofile
+    ADD CONSTRAINT customers_customerprofile_pin_id_7be2ae21_fk_auth_user_id FOREIGN KEY (pin_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: customers_dedu_enterprise_id_9986a8f5_fk_stations_enterprise_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY customers_deductions
+    ADD CONSTRAINT customers_dedu_enterprise_id_9986a8f5_fk_stations_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES stations_enterprise(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: details_item_name_id_4903a238_fk_details_merchant_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY details_item
+    ADD CONSTRAINT details_item_name_id_4903a238_fk_details_merchant_id FOREIGN KEY (name_id) REFERENCES details_merchant(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_content_type_id_c4bce8eb_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_content_type_id_c4bce8eb_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_cart_cartite_cart_id_adaf8330_fk_shopping_cart_cart_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shopping_cart_cartitem
+    ADD CONSTRAINT shopping_cart_cartite_cart_id_adaf8330_fk_shopping_cart_cart_id FOREIGN KEY (cart_id) REFERENCES shopping_cart_cart(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shopping_cart_cartitem_product_id_327be483_fk_details_item_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shopping_cart_cartitem
+    ADD CONSTRAINT shopping_cart_cartitem_product_id_327be483_fk_details_item_id FOREIGN KEY (product_id) REFERENCES details_item(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shoppingcart_content_type_id_32423876_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shoppingcart_item
+    ADD CONSTRAINT shoppingcart_content_type_id_32423876_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shoppingcart_item_cart_id_53cfab18_fk_shoppingcart_cart_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shoppingcart_item
+    ADD CONSTRAINT shoppingcart_item_cart_id_53cfab18_fk_shoppingcart_cart_id FOREIGN KEY (cart_id) REFERENCES shoppingcart_cart(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_phonebook_group_id_5a933a97_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebook_group_id_5a933a97_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_phonebook_owner_id_d1840dae_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebook_owner_id_d1840dae_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_sms_owner_id_8acbce1d_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_sms
+    ADD CONSTRAINT smsgateway_sms_owner_id_8acbce1d_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_sms_reciever_id_bfa4e19b_fk_smsgateway_phonebook_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_sms
+    ADD CONSTRAINT smsgateway_sms_reciever_id_bfa4e19b_fk_smsgateway_phonebook_id FOREIGN KEY (reciever_id) REFERENCES smsgateway_phonebook(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: stations_enter_enterprise_id_5c493244_fk_stations_enterprise_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY stations_enterprisestaff
+    ADD CONSTRAINT stations_enter_enterprise_id_5c493244_fk_stations_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES stations_enterprise(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: stations_enterprisestaff_owner_id_ce471ec3_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY stations_enterprisestaff
+    ADD CONSTRAINT stations_enterprisestaff_owner_id_ce471ec3_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

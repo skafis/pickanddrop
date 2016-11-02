@@ -1,6 +1,11 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
 {% block content %}
+
 <h3>payment</h3>
 <div>
 {{info.first_name}}

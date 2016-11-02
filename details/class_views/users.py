@@ -15,32 +15,34 @@ def user_details(request, amount, template_name='user_registration.html'):
 
 	if request.method == "POST":
 		if form.is_valid():
-			instance = form.save(commit=False)
-			instance.save()
-			return HttpResponseRedirect(instance.get_absolute_url())
-			# return redirect("/location/%s" % (request.POST['first_name']))
+			form.save()
+			# return HttpResponseRedirect(instance.get_absolute_url())
+			return redirect("/location/%s" % str(request.POST['first_name']).lower())
 	#else:
 		#form = Add_detailsForm()
 	return render(request, template_name, ctx)
 
-def user_location(request, slug=None, template_name='user_location.html'):
-	user_info = Userdetails.objects.get(slug=slug)
-	form = Add_coordinatesForm(request.POST or None)
-	form.fields['first_name'].initial = Userdetails.objects.get(slug=slug).first_name
-	form.fields['last_name'].initial = Userdetails.objects.get(slug=slug).last_name
-	form.fields['email'].initial = Userdetails.objects.get(slug=slug).email
-	ctx = {}
-	ctx['form']=form
+def user_location(request, slug, template_name='user_location.html'):
+	try:
+		ctx = {}
+		user_info = Userdetails.objects.get(slug=slug)
+		form = Add_coordinatesForm(request.POST or None)
+		form.fields['first_name'].initial = Userdetails.objects.get(slug=slug).first_name
+		form.fields['last_name'].initial = Userdetails.objects.get(slug=slug).last_name
+		form.fields['email'].initial = Userdetails.objects.get(slug=slug).email
+		ctx['form']=form
 
-	if form.is_valid():
-		instance = form.save(commit=False)
-		instance.save()
-		description='none'
-		types='MERCHANT'
-		reference='none'
-		total_amount = float(user_info.amount) + float(request.POST['amount'])
-		return redirect('http://192.168.0.13/pickanddrop/pesapal-iframe.php?first_name=%s&last_name=%s&amount=%s&email=%s&description=%s&type=%s&reference=%s'%(request.POST['first_name'], 
-			request.POST['last_name'], total_amount, request.POST['email'],description,types,reference))
+		if form.is_valid():
+			instance = form.save(commit=False)
+			instance.save()
+			description='none'
+			types='MERCHANT'
+			reference='none'
+			total_amount = float(user_info.amount) + float(request.POST['amount'])
+			return redirect('http://45.55.252.17/pickanddrop/pesapal-iframe.php?first_name=%s&last_name=%s&amount=%s&email=%s&description=%s&type=%s&reference=%s'%(request.POST['first_name'], 
+				request.POST['last_name'], total_amount, request.POST['email'],description,types,reference))
+	except:
+		raise 
 
 	return render(request, template_name, ctx)
 

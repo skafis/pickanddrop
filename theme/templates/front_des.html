@@ -37,14 +37,21 @@
     <link href="{% static 'ccss/plugins/summernote/summernote.css' %}" rel="stylesheet">
     <link href="{% static 'ccss/plugins/summernote/summernote-bs3.css' %}" rel="stylesheet">
     <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    {% block extended_head %}
+    {% endblock %}
 
 
 </head>
 
-<body class="">
+<body class="front">
 
-<div id="header">
-	{% block nav_menu %}{% endblock %}
+<div class="container">
+  <div id="header">
+    <div class="col-sm-7 col-sm-offset-5 col">
+        <div class="black">Call : (+254) 707 119602  |  Email: shipping@pickndrop.com  |  Sun - Mon : 8am - 7pm</div>
+    </div>
+    {% block nav_menu %}{% endblock %}
+  </div>
 </div>
 
 <div id="main-content" >
@@ -56,15 +63,15 @@
 		{% endfor %}
 		</ul>
 	{% endif %}
-		{% block content %}{% endblock %}
 		{% block actions_form %}{% endblock %}
 	</div>
+  {% block content %}{% endblock %}
 </div>
 
 
- 
+
  <div class="footer">
-    <div class="text-center">Copyright $ (Dollar) a month 2016</div>
+    <div class="text-center">Copyright Reserver Pick-&-Drop 2016 | Powered by Butterfly Tribe Ltd</div>
 </div>
 
 
@@ -350,5 +357,7 @@
 
         }
     </script>
+    {% block extended_script %}
+    {% endblock %}
 </body>
 </html>

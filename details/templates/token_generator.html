@@ -1,6 +1,11 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
 {% block content %}
+
 <h3>Token</h3>
 <div>
 {{token}}<br>
@@ -16,7 +21,7 @@
  <script>
  var loc = document.getElementById("location").text
  console.log(loc);
- 	
+
  </script>
 
     {% endblock %}

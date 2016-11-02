@@ -11,7 +11,8 @@ def merchant_registaration(request,template_name='merchant_registration.html'):
 			instance = form.save()
 			# instance = form.save(commit=False)
 			# instance.save()
-			return HttpResponseRedirect(instance.get_absolute_url())
+			#return HttpResponseRedirect(instance.get_absolute_url())
+			return redirect('details:info',str(instance.company).lower())
 	else:
 		form = Add_merchantForm()
 	ctx = {}

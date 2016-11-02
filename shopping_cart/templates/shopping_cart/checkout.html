@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
+{% block content %}
+
+<form method="post"  action="/carts/checkout/{{amount}}/" class="form-horizontal">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Proceed to Pay" class="btn btn-primary" />
+</form>
+
+
+{% endblock %}

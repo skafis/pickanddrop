@@ -1,5 +1,10 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
+
 {% block extended_head %}
 <style>
       #map {
@@ -11,54 +16,55 @@
 {% endblock %}
 
 {% block content %}
-<h2>Delivered at your door steps</h2>
-<div class="row">		
-	<h3>Enter your location</h3>
-	<button type="button" onclick="initialize();" >Calculate Distance</button>
-    <div id="price"></div>
-    <div id="error"></div>
-    <form method="POST">{% csrf_token %}
-    <div style="display: none;">
-	{{ form.as_p }}	
+<h2>Delivered at your door steps <small>Enter your location</small></h2>
+<div class="location row">
+
+<div class="col-sm-12">
+	<button type="button" class="button btn" onclick="initialize();" >Calculate Distance</button>
+	<div id="price"></div>
+	<div id="error"></div>
+	<form method="POST">{% csrf_token %}
+	<div style="display: none;">{{ form.as_p }}</div>
+	<button type="submit" class="button btn" >Proceed To Payment</button>
+	</form>
+</div>
+
+<div class="col-sm-12">
+	<div id="map"></div>
+	<div class="form-horizontal marked">
+		<div class="form-group">
+		<label for="inputEmail3" class="col-sm-2 control-label">First Marked address:</label>
+		<div class="col-sm-10"><input class="form-control" type="text" name="address1" id="address1"/></div>
+		</div>
+		<div class="form-group">
+		<label for="inputEmail3" class="col-sm-2 control-label">Second Marked address:</label>
+		<div class="col-sm-10"><input class="form-control" type="text" name="address2" id="address2"/></div>
+		</div>
 	</div>
-	<button type="submit" class="button";" >Proceed To Payment</button>	
-    </form>
-    <div id="map">
-    	
-    </div>
-    <tr>
-				<td>First address:</td>
-				<td>&nbsp;</td>
-				<td><input class="form" type="text" name="address1" id="address1" size="50"/></td>
-				<td>&nbsp;</td>
-				<td>Second address:</td>
-				<td>&nbsp;</td>
-				<td><input class="form" type="text" name="address2" id="address2" size="50"/></td>
-			</tr>
-    
-    
+</div>
+
 </div>
 {% endblock content %}
 
 {% block extended_script %}
     <script>
-    
+
     		var map;
             var marker = null;
             var location1;
 			var location2;
-			
+
 			var address1;
 			var address2;
 
 			var latlng;
 			var geocoder;
-			
+
 			var line;
-			
+
 			var infowindow1;
 			var infowindow2;
-			
+
 			var distance;
 
             function initMap() {
@@ -66,7 +72,7 @@
                 var mapOptions = {
                     zoom: 15,
                     disableDefaultUI: false,
-                    center: new google.maps.LatLng(-1.2921,36.8219), 
+                    center: new google.maps.LatLng(-1.2921,36.8219),
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
@@ -74,8 +80,8 @@
 
                 coordinates = new google.maps.LatLng(-1.288581834136465,36.82305871429446)
                 $("#address1").val(coordinates.lat() + ','+coordinates.lng());
-                var marker_1 =  new google.maps.Marker({ 
-	                     	position:coordinates, 
+                var marker_1 =  new google.maps.Marker({
+	                     	position:coordinates,
 	                     	draggable: true,
 	                     	map: map
 	                     });
@@ -92,20 +98,20 @@
 
                 	var location = event.latLng
                 	var lonlat=String( event.latLng.lat() + ", " + event.latLng.lng())
-     
+
                     $("#address2").val(lonlat);
 
                     if (marker) { marker.setMap(null); }
 	                    //create the new location
-	                     marker = new google.maps.Marker({ 
-	                     	position: event.latLng, 
+	                     marker = new google.maps.Marker({
+	                     	position: event.latLng,
 	                     	draggable: true,
 	                     	map: map
 	                     });
                  });
             }
             function initialize(){
-                     
+
                     geocoder = new google.maps.Geocoder(); // creating a new geocode object
                     // getting the two address values
                     // adress1 = new google.maps.LatLng(-1.2921,36.8219);
@@ -115,11 +121,11 @@
 					address2 = document.getElementById("address2").value;
 
                     // finding out the coordinates
-                    if (geocoder) 
+                    if (geocoder)
 						{
-							geocoder.geocode( { 'address': address1}, function(results, status) 
+							geocoder.geocode( { 'address': address1}, function(results, status)
 							{
-								if (status == google.maps.GeocoderStatus.OK) 
+								if (status == google.maps.GeocoderStatus.OK)
 								{
 									// location of first address longitude and latitude
 									location1 = results[0].geometry.location;
@@ -128,15 +134,15 @@
 									document.getElementById("error").innerHTML = "Geocode was not successful for the following reason: " + status;
 								}
 							});
-							geocoder.geocode( { 'address': address2}, function(results, status) 
+							geocoder.geocode( { 'address': address2}, function(results, status)
 								{
-									if (status == google.maps.GeocoderStatus.OK) 
+									if (status == google.maps.GeocoderStatus.OK)
 									{
 										//location of second address (latitude + longitude)
 										location2 = results[0].geometry.location;
-										// calling the showMap() function to create and show the map 
+										// calling the showMap() function to create and show the map
 										showMap();
-									} else 
+									} else
 									{
 										document.getElementById("error").innerHTML = "Geocode was not successful for the following reason: " + status;
 									}
@@ -147,26 +153,26 @@
             {
             	// center of the map (compute the mean value between the two locations)
 				latlng = new google.maps.LatLng((location1.lat()+location2.lat())/2,(location1.lng()+location2.lng())/2);
-				// map options 
+				// map options
 				var mapOptions = {
                     zoom: 16,
                     disableDefaultUI: false,
-                    center: latlng, 
+                    center: latlng,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
-                // create new map object 
+                // create new map object
                 map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-                // create the markers for the two locations		
+                // create the markers for the two locations
 				var marker1 = new google.maps.Marker({
-					map: map, 
+					map: map,
 					position: location1,
 					title: "First location",
 					draggable: true
 				});
 
 				var marker2 = new google.maps.Marker({
-					map: map, 
+					map: map,
 					position: location2,
 					title: "Second location",
 					draggable: true
@@ -180,7 +186,7 @@
 						'<p>Address: '+address1+'</p>'+
 						'</div>'+
 						'</div>';
-				
+
 				var text2 = '<div id="content">'+
 					'<h1 id="firstHeading">Second location</h1>'+
 					'<div id="bodyContent">'+
@@ -209,7 +215,7 @@
 					$("#address1").val(location1.lat()+ ','+ location_1.lng());
 					drawRoutes(location1, location2);
 				});
-				
+
 				google.maps.event.addListener(marker2, 'dragend', function() {
 					location2 = marker2.getPosition();
 					$("#address2").val(location2.lat()+','+location2.lng());
@@ -223,9 +229,9 @@
 					suppressMarkers: true,
 					suppressInfoWindows: true
 				});
-				
+
 				directionsDisplay.setMap(map);
-				
+
 				drawRoutes(location1, location2);
             }
 
@@ -248,26 +254,26 @@
             		});
             	}
 
-            	if (geocoder) 
+            	if (geocoder)
 					{
-						geocoder.geocode({'latLng': location2}, function(results, status) 
+						geocoder.geocode({'latLng': location2}, function(results, status)
 						{
-							if (status == google.maps.GeocoderStatus.OK) 
+							if (status == google.maps.GeocoderStatus.OK)
 							{
-								if (results[0]) 
+								if (results[0])
 								{
 									address2 = results[0].formatted_address;
 									address2.value = address2
 									continueShowRoute(location1, location2);
 								}
-							} 
-							else 
+							}
+							else
 							{
 								document.getElementById("error").innerHTML =("Geocoder failed due to: " + status);
 							}
 						});
 					}
-            }  
+            }
             function continueShowRoute(location1, location2)
 			{
 				// hide last line
@@ -275,10 +281,10 @@
 				{
 					line.setMap(null);
 				}
-			
+
 				// show a line between the two points
 				// line = new google.maps.Polyline({
-				// 	map: map, 
+				// 	map: map,
 				// 	path: [location1, location2],
 				// 	strokeWeight: 7,
 				// 	strokeOpacity: 0.8,
@@ -286,30 +292,30 @@
 				// });
 
 				// compute distance between the two points
-				var R = 6371; 
+				var R = 6371;
 				var dLat = toRad(location2.lat()-location1.lat());
 				var dLon = toRad(location2.lng()-location1.lng());
-				
+
 				var dLat1 = toRad(location1.lat());
 				var dLat2 = toRad(location2.lat());
-				
+
 				var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-						Math.cos(dLat1) * Math.cos(dLat1) * 
-						Math.sin(dLon/2) * Math.sin(dLon/2); 
-				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+						Math.cos(dLat1) * Math.cos(dLat1) *
+						Math.sin(dLon/2) * Math.sin(dLon/2);
+				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 				var d = R * c;
 
-				var travelmode = google.maps.DirectionsTravelMode.DRIVING;	
+				var travelmode = google.maps.DirectionsTravelMode.DRIVING;
 
 				// find and show route between the points
 				var request = {
-					origin:location1, 
+					origin:location1,
 					destination:location2,
 					travelMode: travelmode
 				};
-				directionsService.route(request, function(response, status) 
+				directionsService.route(request, function(response, status)
 				{
-					if (status == google.maps.DirectionsStatus.OK) 
+					if (status == google.maps.DirectionsStatus.OK)
 					{
 						directionsDisplay.setDirections(response);
 						amount  = parseFloat(response.routes[0].legs[0].distance.text)*20.0;
@@ -326,7 +332,7 @@
 						document.getElementById("error").innerHTML =('error: ' + status);
 					}
 				});
-				
+
 				// update text in infowindows
 				var text1 = '<div id="content">'+
 						'<h1 id="firstHeading">First location</h1>'+
@@ -335,7 +341,7 @@
 						'<p>Address: '+address1+'</p>'+
 						'</div>'+
 						'</div>';
-						
+
 				var text2 = '<div id="content">'+
 					'<h1 id="firstHeading">Second location</h1>'+
 					'<div id="bodyContent">'+
@@ -343,7 +349,7 @@
 					'<p>Address: '+address2+'</p>'+
 					'</div>'+
 					'</div>';
-					
+
 				infowindow1.setContent(text1);
 				infowindow2.setContent(text2);
 			}

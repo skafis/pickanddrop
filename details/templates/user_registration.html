@@ -1,11 +1,16 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
 {% block content %}
-<h2>Enter Details</h2>
-<div class="row">
+
+<div class="user_reg">
+	<h2>Enter Details</h2>
 	<form method="POST">{% csrf_token %}
-	{{ form.as_p }}		
-	<button type="submit" class="button">save</button>
-	</form>	
+	{{ form.as_p }}
+	<button type="submit" class="button btn navbar-right">Save Details</button>
+	</form>
 </div>
 {% endblock content %}

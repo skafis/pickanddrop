@@ -72,9 +72,5 @@ class Item(models.Model):
 	item_name = models.CharField(max_length=40)
 	cost = models.DecimalField(max_digits=20, decimal_places=2)
 	
-
-
-
-
-
-
+	def __str__(self):
+		return self.item_name
