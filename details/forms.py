@@ -23,17 +23,17 @@ class Add_detailsForm(forms.ModelForm):
 		]
 
 class Add_coordinatesForm(forms.ModelForm):
-	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-	email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	# first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	# last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	# email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	amount = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 	class Meta:
 		model = Delivery
 		fields = (
 					'id',
-					'first_name',
-					'last_name',
-					'email',
+					# 'first_name',
+					# 'last_name',
+					# 'email',
 					'amount',
 				)
 

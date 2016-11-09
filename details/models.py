@@ -44,9 +44,9 @@ pre_save.connect(pre_save_receiver, sender=Userdetails)
 
 class Delivery(models.Model):
 	# user = models.ForeignKey(Userdetails, null=False)
-	first_name = models.CharField(max_length= 100)
-	last_name = models.CharField(max_length= 100)
-	email = models.EmailField()
+	# first_name = models.CharField(max_length= 100)
+	# last_name = models.CharField(max_length= 100)
+	# email = models.EmailField()
 	amount = models.CharField(max_length=20)
 
 	def get_absolute_url(self):

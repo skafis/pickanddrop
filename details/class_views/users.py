@@ -27,9 +27,10 @@ def user_location(request, slug, template_name='user_location.html'):
 		ctx = {}
 		user_info = Userdetails.objects.get(slug=slug)
 		form = Add_coordinatesForm(request.POST or None)
-		form.fields['first_name'].initial = Userdetails.objects.get(slug=slug).first_name
-		form.fields['last_name'].initial = Userdetails.objects.get(slug=slug).last_name
-		form.fields['email'].initial = Userdetails.objects.get(slug=slug).email
+
+		first_name = user_info.first_name
+		last_name = user_info.last_name
+		email = user_info.email
 		ctx['form']=form
 
 		if form.is_valid():
@@ -39,8 +40,8 @@ def user_location(request, slug, template_name='user_location.html'):
 			types='MERCHANT'
 			reference='none'
 			total_amount = float(user_info.amount) + float(request.POST['amount'])
-			return redirect('http://45.55.252.17/pickanddrop/pesapal-iframe.php?first_name=%s&last_name=%s&amount=%s&email=%s&description=%s&type=%s&reference=%s'%(request.POST['first_name'], 
-				request.POST['last_name'], total_amount, request.POST['email'],description,types,reference))
+			return redirect('http://45.55.252.17/pickanddrop/pesapal-iframe.php?first_name=%s&last_name=%s&amount=%s&email=%s&description=%s&type=%s&reference=%s'%(first_name, 
+				last_name,total_amount,email,description,types,reference))
 	except:
 		raise 
 
