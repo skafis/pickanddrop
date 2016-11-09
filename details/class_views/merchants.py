@@ -5,6 +5,7 @@ from details.forms import Add_merchantForm
 from details.models import Merchant
 
 def merchant_registaration(request,template_name='merchant_registration.html'):
+
 	if request.method == "POST":
 		form = Add_merchantForm(request.POST or None)
 		if form.is_valid():
@@ -12,7 +13,7 @@ def merchant_registaration(request,template_name='merchant_registration.html'):
 			# instance = form.save(commit=False)
 			# instance.save()
 			#return HttpResponseRedirect(instance.get_absolute_url())
-			return redirect('details:info',str(instance.company).lower())
+			return redirect('details:info',str(instance.slug).lower())
 	else:
 		form = Add_merchantForm()
 	ctx = {}

@@ -15,9 +15,9 @@ def user_details(request, amount, template_name='user_registration.html'):
 
 	if request.method == "POST":
 		if form.is_valid():
-			form.save()
+			instance = form.save()
 			# return HttpResponseRedirect(instance.get_absolute_url())
-			return redirect("/location/%s" % str(request.POST['first_name']).lower())
+			return redirect("/location/%s" % str(instance.slug))
 	#else:
 		#form = Add_detailsForm()
 	return render(request, template_name, ctx)
