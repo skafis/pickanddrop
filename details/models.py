@@ -68,7 +68,7 @@ class Merchant(models.Model):
 		return reverse('info', kwargs={'slug': self.slug})
 
 class Item(models.Model):
-	name = models.ForeignKey(Merchant, verbose_name = 'Name', blank = True)
+	merchant = models.ForeignKey(Merchant, verbose_name = 'owner', null=True, blank = True)
 	item_name = models.CharField(max_length=40)
 	cost = models.DecimalField(max_digits=20, decimal_places=2)
 	

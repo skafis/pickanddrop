@@ -2,18 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from details.forms import Add_itemForm, Add_detailsForm, Add_coordinatesForm
-from details.models import Item, Userdetails, Delivery
+from details.models import Item, Userdetails, Delivery, Merchant
 
 def add_items(request, slug,template_name='add_item.html'):
+	ctx = {}
 	if request.method == "POST":
 		form = Add_itemForm(request.POST or None)
+		form.fields['merchant'].initial = Merchant.objects.get(slug=slug).company
 		if form.is_valid():
 			# instance = form.save()
 			form.save()
 			return redirect ('/')
 	else:
 		form = Add_itemForm()
-	ctx = {}
 	ctx['form'] = form
 	return render(request, template_name, ctx)
 
